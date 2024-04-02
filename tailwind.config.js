@@ -6,12 +6,16 @@ export default {
       fontFamily: {
         nunito: '"Nunito", sans-serif',
       },
-      fontWeight: {
-
-      },
+      fontWeight: {},
       colors: {
-        digiColor: '#AA5850',
+        mainColor: "#A34A41",
+        hoverColor: "#E3C8C6",
+        buttonHoverColor: "#AA5850",
+        textColor: "#2A2322",
       },
+      screens: {
+        xs: '375px'
+      }
     },
   },
   plugins: [],

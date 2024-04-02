@@ -4,7 +4,7 @@ import Header from './components/landing-page/Header'
 
 const App = () => {
   return (
-    <main className='w-full font-nunito'>
+    <main className='w-full font-nunito text-textColor'>
       <Nav/>
       <Header/>
     </main>
