@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import logo from "../../assets/landing-page-images/logo.avif";
+import logo from "../../assets/logo.png";
+import logo1 from "../../assets/logo1.png";
 import { featuresData, solutionsData } from "../../data/data";
 import Masonry from "react-layout-masonry";
 import { BiMenuAltRight } from "react-icons/bi";
@@ -40,12 +41,11 @@ const Nav = () => {
           style={{ transition: "0.5s ease" }}
           className={`w-full xs:w-4/6 sm:w-1/3 lg:w-full h-dvh lg:h-auto py-8 flex flex-col lg:flex-row gap-12 lg:gap-0 justify-between absolute lg:static top-0 ${
             menu ? "left-0" : "-left-full"
-          } bg-white lg:bg-transparent shadow-lg lg:shadow-none`}
+          } bg-white lg:bg-transparent shadow-lg lg:shadow-none z-10`}
         >
           <RxCross2 onClick={() => setMenu(false)} className="absolute right-5 top-9 text-xl lg:hidden" />
           <section className="px-10 lg:hidden">
-            <img className="w-20" src={logo} alt="" />
-            <h2 className="font-bold text-buttonHoverColor">DIGI DINES</h2>
+            <img className="w-20" src={logo1} alt="" />
           </section>
           <ul className="flex flex-col lg:flex-row gap-0 xl:gap-8 px-5 lg:px-0">
             <ListItems item="Features" />
