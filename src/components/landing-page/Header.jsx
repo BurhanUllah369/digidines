@@ -81,7 +81,9 @@ export default function Header() {
                   />
                   <section className="w-2/3 p-4 absolute -bottom-12 left-1/2 -translate-x-1/2 bg-mainColor text-white text-center rounded-lg">
                     <h2 className="text-lg font-semibold">Tablet Menu</h2>
-                    <p className="text-xs">Our tablet menu app runs on iOS and Android</p>
+                    <p className="text-xs">
+                      Our tablet menu app runs on iOS and Android
+                    </p>
                   </section>
                 </section>
                 <section className="relative">
@@ -92,7 +94,9 @@ export default function Header() {
                   />
                   <section className="w-2/3 p-4 absolute -bottom-12 left-1/2 -translate-x-1/2 bg-mainColor text-white text-center rounded-lg">
                     <h2 className="text-lg font-semibold">QR Menu</h2>
-                    <p className="text-xs">Our tablet menu app runs on iOS and Android</p>
+                    <p className="text-xs">
+                      Our tablet menu app runs on iOS and Android
+                    </p>
                   </section>
                 </section>
                 <section className="relative">
@@ -103,7 +107,9 @@ export default function Header() {
                   />
                   <section className="w-2/3 p-4 absolute -bottom-12 left-1/2 -translate-x-1/2 bg-mainColor text-white text-center rounded-lg">
                     <h2 className="text-lg font-semibold">QR Menu</h2>
-                    <p className="text-xs">Our tablet menu app runs on iOS and Android</p>
+                    <p className="text-xs">
+                      Our tablet menu app runs on iOS and Android
+                    </p>
                   </section>
                 </section>
                 <section className="relative">
@@ -114,24 +120,34 @@ export default function Header() {
                   />
                   <section className="w-2/3 p-4 absolute -bottom-12 left-1/2 -translate-x-1/2 bg-mainColor text-white text-center rounded-lg">
                     <h2 className="text-lg font-semibold">Online Ordering</h2>
-                    <p className="text-xs">Our tablet menu app runs on iOS and Android</p>
+                    <p className="text-xs">
+                      Our tablet menu app runs on iOS and Android
+                    </p>
                   </section>
                 </section>
               </section>
             </section>
           </div>
           <div>
-            <section>
-              <h1>Online Delivery & Pick-up Menu</h1>
-              <h3>with 0% commission!</h3>
-              <p>Reduce your dependency on delivery channel partners and start accepting direct online delivery and takeaways. Create your delivery menu that is different from your dine-in menu and connect your delivery menu link to your website and share it across your social media channels!</p>
-              <section>
-                <button>Learn More</button>
-                <button>Start Free Trial</button>
+            <section className="w-5/6 mx-auto flex gap-12">
+              <section className="w-1/2 flex flex-col justify-center gap-4">
+                <h1 className="text-6xl">Online Delivery & Pick-up Menu</h1>
+                <h3 className="text-3xl">with 0% commission!</h3>
+                <p>
+                  Reduce your dependency on delivery channel partners and start
+                  accepting direct online delivery and takeaways. Create your
+                  delivery menu that is different from your dine-in menu and
+                  connect your delivery menu link to your website and share it
+                  across your social media channels!
+                </p>
+                <section className="mt-4">
+                  <button className="mr-4 px-6 py-4 bg-white  rounded-lg">Learn More</button>
+                  <button className="px-6 py-4 bg-mainColor rounded-lg text-white">Start Free Trial</button>
+                </section>
               </section>
-            </section>
-            <section>
-              <img src={carouselImages.three.url1} alt="" />
+              <section>
+                <img src={carouselImages.three.url1} alt="" />
+              </section>
             </section>
           </div>
         </Slider>
