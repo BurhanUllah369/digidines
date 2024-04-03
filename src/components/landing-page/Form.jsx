@@ -1,5 +1,5 @@
 import React from 'react'
-import formImage from "../assets/landing-page-images/form-image.png"
+import formImage from "../../assets/landing-page-images/form-image.png";
 
 const Form = () => {
   return (
