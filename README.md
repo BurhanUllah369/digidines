@@ -8,3 +8,7 @@
 
 ### Masonry Layout 
 - react-layout-masonry
+
+### Carousel
+- react-slick
+- slick-carousel

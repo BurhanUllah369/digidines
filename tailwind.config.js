@@ -12,6 +12,7 @@ export default {
         hoverColor: "#E3C8C6",
         buttonHoverColor: "#AA5850",
         textColor: "#2A2322",
+        headerBg: "#D3A8A4",
       },
       screens: {
         xs: '375px'
