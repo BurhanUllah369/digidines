@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api";
+import { useMenuContext } from "../../context/menuContext";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -18,15 +19,16 @@ const initialValues = {
 const Login = () => {
   const [errMessage, setErrorMessage] = useState("");
   const [showErrMessage, setShowErrMessage] = useState(false);
+  const { showMenuItems, toggleMenuItems } = useMenuContext();
   const navigate = useNavigate();
 
   // if already logged in then no access to login page
-  // useEffect(() => {
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   if (accessToken) {
-  //     navigate("/");
-  //   }
-  // }, [navigate]);
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
@@ -37,7 +39,10 @@ const Login = () => {
 
       const accessToken = response.data.token.access;
       localStorage.setItem("accessToken", accessToken);
+      toggleMenuItems(false);
+      
       navigate("/");
+      window.location.reload()
     } catch (error) {
       setErrorMessage(JSON.parse(error.request.response).message);
       setShowErrMessage(true);
@@ -51,7 +56,7 @@ const Login = () => {
 
   return (
     <div className="w-full h-[87vh] pt-16 bg-gray-50">
-      <div className="p-4 pt-12 md:p-12 pb-24 w-11/12 sm:w-3/4 md:w-1/2 xl:w-1/4 mx-auto sm:shadow-lg sm:bg-white rounded-lg">
+      <div className="p-4 pt-12 md:p-12 pb-24 w-11/12 sm:w-3/4 md:w-1/2 xl:w-1/3 mx-auto sm:shadow-lg sm:bg-white rounded-lg">
         <h1 className="text-3xl text-center font-bold mb-8">Login</h1>
         {showErrMessage ? (
           <p className="text-red-600 mb-4">{errMessage}</p>
@@ -95,7 +100,11 @@ const Login = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Logging in..." : "Submit"}
+                {isSubmitting ? (
+                  <div className="w-8 h-8 border-2 border-r-transparent border-white rounded-full mx-auto animate-spin"></div>
+                ) : (
+                  "Submit"
+                )}
               </button>
             </Form>
           )}

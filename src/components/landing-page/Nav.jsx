@@ -68,6 +68,7 @@ const Nav = () => {
     boxShadow: "none",
   });
   const [windowWidth, setWindowWidth] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,6 +91,11 @@ const Nav = () => {
     };
 
     setWindowWidth(window.innerWidth);
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (accessToken) {
+      setIsLoggedIn(true);
+    }
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
@@ -100,18 +106,22 @@ const Nav = () => {
     };
   }, []);
 
+  const logout = () => {
+    const accessToken = localStorage.getItem("accessToken");
+    localStorage.removeItem("accessToken")
+    window.location.reload();
+  }
+
   return (
     <nav className="w-full sticky lg:py-0 top-0 z-50" style={navStyle}>
       <section className="w-11/12 mx-auto py-5 flex justify-between lg:gap-16 items-center font-medium">
         <Link to="/">
-          {/* <AnchorLink href="#header"> */}
           <img
             onClick={() => toggleMenuItems(false)}
             className="w-14"
             src={logo}
             alt=""
           />
-          {/* </AnchorLink> */}
         </Link>
         <section
           style={{ transition: "0.5s ease" }}
@@ -166,25 +176,45 @@ const Nav = () => {
             />
           </ul>
 
-          <ul
-            className={`${
-              showMenuItems ? "hidden" : "flex"
-            } flex-col lg:flex-row items-start gap-4 lg:gap-8 px-4 py-4 lg:py-0 lg:px-0`}
-          >
-            <Link to="/login" onClick={() => toggleMenuItems(true)}>
-              <li
-                onClick={() => setMenu(false)}
-                className="hover:bg-hoverColor py-3 px-5 rounded-md transition duration-100 ease-linear cursor-pointer"
-              >
-                Sign in
-              </li>
-            </Link>
-            <Link to="/register" onClick={() => toggleMenuItems(true)}>
-              <button className="w-full lg:w-auto px-5 py-3 bg-mainColor hover:bg-buttonHoverColor rounded-md shadow-lg hover:shadow-xl text-white transition duration-100 ease-linear">
-                Get Started
-              </button>
-            </Link>
-          </ul>
+          {isLoggedIn ? (
+            <ul
+              className={`${
+                showMenuItems ? "hidden" : "flex"
+              } flex-col lg:flex-row items-start gap-4 lg:gap-8 px-4 py-4 lg:py-0 lg:px-0`}
+            >
+              <Link to="/profile" onClick={() => toggleMenuItems(true)}>
+                <li
+                  onClick={() => setMenu(false)}
+                  className="hover:bg-hoverColor py-3 px-5 rounded-md transition duration-100 ease-linear cursor-pointer"
+                >
+                  Profile
+                </li>
+              </Link>
+                <button onClick={logout} className="w-full lg:w-auto px-5 py-3 bg-mainColor hover:bg-buttonHoverColor rounded-md shadow-lg hover:shadow-xl text-white transition duration-100 ease-linear">
+                  Logout
+                </button>
+            </ul>
+          ) : (
+            <ul
+              className={`${
+                showMenuItems ? "hidden" : "flex"
+              } flex-col lg:flex-row items-start gap-4 lg:gap-8 px-4 py-4 lg:py-0 lg:px-0`}
+            >
+              <Link to="/login" onClick={() => toggleMenuItems(true)}>
+                <li
+                  onClick={() => setMenu(false)}
+                  className="hover:bg-hoverColor py-3 px-5 border lg:border-0 border-mainColor rounded-md transition duration-100 ease-linear cursor-pointer"
+                >
+                  Sign in
+                </li>
+              </Link>
+              <Link to="/register" onClick={() => toggleMenuItems(true)}>
+                <button className="w-full lg:w-auto px-5 py-3 bg-mainColor hover:bg-buttonHoverColor rounded-md shadow-lg hover:shadow-xl text-white transition duration-100 ease-linear">
+                  Get Started
+                </button>
+              </Link>
+            </ul>
+          )}
         </section>
         <BiMenuAltRight
           onClick={() => setMenu(true)}

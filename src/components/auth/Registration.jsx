@@ -69,7 +69,7 @@ const Register = () => {
       }
       setErrorMessage(err);
 
-      resetForm();
+      // resetForm();
     }
   };
 
