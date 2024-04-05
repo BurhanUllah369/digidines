@@ -34,7 +34,7 @@ const features = {
 
 const Plan = ({ heading, price, data, btn }) => {
   return (
-    <section className="px-6 py-8 bg-headerBg rounded-lg shadow-xl flex flex-col">
+    <section id="plans" className="px-6 py-8  rounded-lg shadow-xl flex flex-col">
       <h2 className="mb-4 text-xl font-bold">{heading}</h2>
       <p className="text-lg font-semibold mb-4">{price}</p>
       <ul className="flex flex-col gap-2 mb-4">
@@ -86,9 +86,9 @@ const Plans = () => {
 
       {/* why digidines */}
       <section className="w-full bg-mainColor">
-        <section className="w-2/3 mx-auto py-12 text-gray-100">
+        <section className="w-11/12 sm:w-2/3 mx-auto py-12 text-gray-100">
           <h1 className="mb-4 text-xl font-bold text-center">Why Digi Dines?</h1>
-          <p>
+          <p className="text-sm sm:text-base">
             Digidines offers a revolutionary dining experience with seamless QR
             code ordering, making it effortless for customers to place dine-in,
             pickup, or delivery orders. Empower your business with our platform,

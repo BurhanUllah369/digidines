@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo.png";
 import logo1 from "../../assets/logo1.png";
 import { featuresData, solutionsData } from "../../data/data";
 import Masonry from "react-layout-masonry";
 import { BiMenuAltRight } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
+import AnchorLink from "react-anchor-link-smooth-scroll";
+import { Link } from "react-router-dom";
+import { useMenuContext } from "../../context/menuContext";
 
 const Item = ({ icon, heading, description }) => {
   return (
@@ -18,44 +21,101 @@ const Item = ({ icon, heading, description }) => {
   );
 };
 
-const ListItems = ({ className, item, setFeatures, setSolutions }) => {
+const ListItems = ({
+  className,
+  item,
+  setFeatures,
+  setSolutions,
+  location,
+  setMenu,
+}) => {
   return (
     <li
+      onClick={() => {
+        setMenu(false);
+      }}
       onMouseEnter={() =>
-        item == "Features"
+        item === "Features"
           ? setFeatures(true)
-          : item == "Solutions"
+          : item === "Solutions"
           ? setSolutions(true)
           : null
       }
       onMouseLeave={() =>
-        item == "Features"
+        item === "Features"
           ? setFeatures(false)
-          : item == "Solutions"
+          : item === "Solutions"
           ? setSolutions(false)
           : null
       }
       className={`${className} hover:bg-hoverColor py-3 px-5 rounded-md transition duration-100 ease-linear cursor-pointer`}
     >
-      <a className="features" href="#">
-        {item}
-      </a>
+      {" "}
+      <AnchorLink href={location}>
+        <span>{item}</span>{" "}
+      </AnchorLink>
     </li>
   );
 };
 
 const Nav = () => {
+  const { showMenuItems, toggleMenuItems } = useMenuContext();
   const [menu, setMenu] = useState(false);
   const [features, setFeatures] = useState(false);
   const [solutions, setSolutions] = useState(false);
+  const [navStyle, setNavStyle] = useState({
+    backgroundColor: "transparent",
+    boxShadow: "none",
+  });
+  const [windowWidth, setWindowWidth] = useState();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      if (scrollPosition > 0) {
+        setNavStyle({
+          backgroundColor: "white",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+        });
+      } else {
+        setNavStyle({
+          backgroundColor: "transparent",
+          boxShadow: "none",
+        });
+      }
+    };
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    setWindowWidth(window.innerWidth);
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <nav className="w-full relative py-3">
-      <section className="w-11/12 mx-auto flex justify-between lg:gap-16 items-center font-medium">
-        <img className="w-20" src={logo} alt="" />
+    <nav className="w-full sticky lg:py-0 top-0 z-50" style={navStyle}>
+      <section className="w-11/12 mx-auto py-5 flex justify-between lg:gap-16 items-center font-medium">
+        <Link to="/">
+          {/* <AnchorLink href="#header"> */}
+          <img
+            onClick={() => toggleMenuItems(false)}
+            className="w-14"
+            src={logo}
+            alt=""
+          />
+          {/* </AnchorLink> */}
+        </Link>
         <section
           style={{ transition: "0.5s ease" }}
-          className={`w-full xs:w-4/6 sm:w-1/3 lg:w-full h-dvh lg:h-auto py-8 flex flex-col lg:flex-row gap-12 lg:gap-0 justify-between absolute lg:static top-0 ${
+          className={`w-full xs:w-4/6 sm:w-1/3 lg:w-full h-dvh lg:h-auto pt-4 lg:pt-0 flex flex-col lg:flex-row gap-12 lg:gap-0 justify-between absolute lg:static top-0 ${
             menu ? "left-0" : "-left-full"
           } bg-white lg:bg-transparent shadow-lg lg:shadow-none z-10`}
         >
@@ -64,35 +124,78 @@ const Nav = () => {
             className="absolute right-5 top-9 text-xl lg:hidden"
           />
           <section className="px-10 lg:hidden">
-            <img className="w-20" src={logo1} alt="" />
+            <Link to="/">
+              <AnchorLink href="#header">
+                <img
+                  onClick={() => {
+                    toggleMenuItems(false);
+                    setMenu(false);
+                  }}
+                  className="w-20"
+                  src={logo1}
+                  alt=""
+                />
+              </AnchorLink>
+            </Link>
           </section>
-          <ul className="flex flex-col lg:flex-row gap-0 xl:gap-8 px-5 lg:px-0">
-            <ListItems setFeatures={setFeatures} item="Features" />
-            <ListItems setSolutions={setSolutions} item="Solutions" />
-            <ListItems item="Pricing" />
-            <ListItems item="About Us" />
-            <ListItems item="Contact Us" />
-          </ul>
-          <ul className="flex flex-col lg:flex-row items-start gap-4 lg:gap-8 px-4 lg:px-0">
+
+          {/* menu items  */}
+          <ul
+            className={`${
+              showMenuItems ? "hidden" : "flex"
+            } flex-col lg:flex-row gap-0 xl:gap-8 px-5 lg:px-0`}
+          >
             <ListItems
-              className="border lg:border-0 border-mainColor w-full lg:w-auto flex justify-center"
-              item="Sign in"
+              setMenu={setMenu}
+              setFeatures={setFeatures}
+              item="Features"
+              location="#features"
             />
-            <button className="w-full lg:w-auto px-5 py-3 bg-mainColor hover:bg-buttonHoverColor rounded-md shadow-lg hover:shadow-xl text-white transition duration-100 ease-linear">
-              Get Started
-            </button>
+            <ListItems
+              setMenu={setMenu}
+              setSolutions={setSolutions}
+              item="Solutions"
+              location="#solutions"
+            />
+            <ListItems setMenu={setMenu} item="Pricing" location="#plans" />
+            <ListItems setMenu={setMenu} item="About Us" location="#footer" />
+            <ListItems
+              setMenu={setMenu}
+              item="Contact Us"
+              location="#contact"
+            />
+          </ul>
+
+          <ul
+            className={`${
+              showMenuItems ? "hidden" : "flex"
+            } flex-col lg:flex-row items-start gap-4 lg:gap-8 px-4 py-4 lg:py-0 lg:px-0`}
+          >
+            <Link to="/login" onClick={() => toggleMenuItems(true)}>
+              <li
+                onClick={() => setMenu(false)}
+                className="hover:bg-hoverColor py-3 px-5 rounded-md transition duration-100 ease-linear cursor-pointer"
+              >
+                Sign in
+              </li>
+            </Link>
+            <Link to="/register" onClick={() => toggleMenuItems(true)}>
+              <button className="w-full lg:w-auto px-5 py-3 bg-mainColor hover:bg-buttonHoverColor rounded-md shadow-lg hover:shadow-xl text-white transition duration-100 ease-linear">
+                Get Started
+              </button>
+            </Link>
           </ul>
         </section>
         <BiMenuAltRight
           onClick={() => setMenu(true)}
-          className="block lg:hidden text-2xl"
+          className={`${showMenuItems ? "hidden" : "block"} lg:hidden text-2xl`}
         />
       </section>
 
       {/* features */}
       <section
-        className={`w-5/6 absolute top-24 left-24 px-20 py-12 rounded-xl bg-gray-100 shadow-2xl ${
-          features ? "block" : "hidden"
+        className={`w-5/6 absolute top-24 left-24 px-20 py-12 rounded-xl bg-white shadow-2xl ${
+          !(windowWidth < 1024) && features ? "block" : "hidden"
         } z-10`}
       >
         <Masonry columns={3} gap={40}>
@@ -109,8 +212,8 @@ const Nav = () => {
 
       {/* solutions  */}
       <section
-        className={`w-3/5 absolute top-24 left-36 px-20 py-12 rounded-xl bg-gray-100 shadow-2xl ${
-          solutions ? "block" : "hidden"
+        className={` w-3/5 absolute top-24 left-36 px-20 py-12 rounded-xl bg-white shadow-2xl ${
+          !(windowWidth < 1024) && solutions ? "block" : "hidden"
         } z-10`}
       >
         <Masonry columns={3} gap={40}>

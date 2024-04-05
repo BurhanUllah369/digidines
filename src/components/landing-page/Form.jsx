@@ -3,7 +3,7 @@ import formImage from "../../assets/landing-page-images/form-image.png";
 
 const Form = () => {
   return (
-    <section className='w-11/12 mx-auto flex flex-col md:flex-row gap-12 py-16'>
+    <section id='contact' className='w-11/12 mx-auto flex flex-col md:flex-row gap-12 py-16'>
         <img className='md:w-1/3 lg:w-1/2 object-cover' src={formImage} alt="" />
         <form className='flex flex-col gap-5'>
             <h1 className='text-xl font-bold mb-2'>Don't Hesitate To Send Your Message To Us</h1>
