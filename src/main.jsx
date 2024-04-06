@@ -5,11 +5,17 @@ import "./index.css";
 import "./components/styles.css";
 import { BrowserRouter } from "react-router-dom";
 import { MenuProvider } from "./context/menuContext.jsx";
+import { SideMenuProvider } from "./context/sideMenuContext.jsx";
+import { SectionProvider } from "./context/restaurantDetailsContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <MenuProvider>
-      <App />
+      <SideMenuProvider>
+        <SectionProvider>
+          <App />
+        </SectionProvider>
+      </SideMenuProvider>
     </MenuProvider>
   </BrowserRouter>
 );
