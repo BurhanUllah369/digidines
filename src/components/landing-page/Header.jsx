@@ -80,7 +80,7 @@ export default function Header() {
                   alt=""
                 />
               </section>
-              <HiArrowLongDown className="block lg:hidden sm:block text-9xl mx-auto"/>
+              <HiArrowLongDown className="hidden sm:block lg:hidden text-9xl mx-auto"/>
             </section>
           </div>
 

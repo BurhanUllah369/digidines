@@ -10,7 +10,6 @@ const Home = () => {
   return (
     <section>
       <Header />
-      <Plans />
       <ReusableComponent
         heading="Features & Benefits"
         data={featuresData}
@@ -21,6 +20,7 @@ const Home = () => {
         data={solutionsData}
         id="solutions"
       />
+      <Plans />
       <Form />
       <Footer />
     </section>

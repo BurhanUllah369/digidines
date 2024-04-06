@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="myForm">
+      <button>submit</button>
+    </form>
+    <script>
+      const form = document.getElementById("myForm");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        
+        fetch("https://qrmenu-skytech-ab55aa4342a1.herokuapp.com/api/contact/", {
+            method: "POST",
+            body: JSON.stringify({
+                title: 'hello',
+                name: 'hello',
+                email: 'burhan@email.com',
+                company_name: 'hello',
+                phone_number: "+9713332324",
+                message: 'this is a message'
+            }),
+            headers: {
+                "content-type": "application/json",
+            }
+        }).then(res => console.log(res))
+       
+      });
+    </script>
+  </body>
+</html>
