@@ -25,3 +25,16 @@
 
 ### HTTP requests
 - axios
+
+- today
+side menu
+top menu
+contact
+restaurant 1/3
+
+- tomorrow
+edit menu responsive
+add ons
+tables responsive
+qr code 
+side menu fix (open and close with refresh)

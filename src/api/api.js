@@ -6,5 +6,6 @@ export const API_ENDPOINTS = {
     VERIFY_OTP: `${BASE_URL}/api/auth/verify-otp`,
     GET_USER_DATA: `${BASE_URL}/api/get_user_data`,
     GET_CURRENT_USER: `${BASE_URL}/api/get_current_user_name`, 
-    CONTACT: `${BASE_URL}/api/contact/`
+    CONTACT: `${BASE_URL}/api/contact/`,
+    
 }

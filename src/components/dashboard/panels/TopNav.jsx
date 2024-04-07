@@ -10,7 +10,7 @@ const TopNav = () => {
   const { sideMenu, toggleSideMenu } = useSideMenuContext();
 
   return (
-    <nav style={{transition: "0.5s ease"}} className={`${sideMenu ? "w-full lg:w-3/5 xl:w-3/4" : "w-full"} ml-auto`}>
+    <nav style={{transition: "0.5s ease"}} className={`${sideMenu ? "w-full lg:w-3/5 xl:w-3/4" : "w-full"} ml-auto shadow-xl`}>
       <section className="h-20 px-6 flex justify-between items-center relative">
         <button onClick={() => toggleSideMenu()}>
           <BiMenuAltLeft className="text-3xl text-mainColor" />

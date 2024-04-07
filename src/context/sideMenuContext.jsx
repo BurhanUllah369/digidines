@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 const SideMenuContext = createContext();
 
@@ -7,10 +7,25 @@ export const useSideMenuContext = () => {
 };
 
 export const SideMenuProvider = ({ children }) => {
-  const [sideMenu, setSideMenu] = useState(false); 
+  const [sideMenu, setSideMenu] = useState(false);
 
-  const toggleSideMenu = () => { 
-    setSideMenu(prevState => !prevState);
+  useEffect(() => {
+    const updateSideMenu = () => {
+      const screenWidth = window.innerWidth;
+      setSideMenu(screenWidth > 1024);
+    };
+
+    updateSideMenu();
+
+    window.addEventListener("resize", updateSideMenu);
+
+    return () => {
+      window.removeEventListener("resize", updateSideMenu);
+    };
+  }, []);
+
+  const toggleSideMenu = () => {
+    setSideMenu((prevState) => !prevState);
   };
 
   return (
@@ -19,3 +34,5 @@ export const SideMenuProvider = ({ children }) => {
     </SideMenuContext.Provider>
   );
 };
+
+export default SideMenuProvider;

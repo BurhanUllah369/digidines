@@ -5,7 +5,7 @@ import { FaClipboardList } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 import { FaStar } from "react-icons/fa";
 import { useRestaurantDetailsContext } from "../../context/restaurantDetailsContext";
-import EditMenu from "./EditMenu";
+import EditMenu from "./EditRestaurant";
 import Orders from "./Orders";
 import OrdersReports from "./OrdersReport";
 import RatingsAndComments from "./RatingsAndComments";
@@ -15,9 +15,9 @@ const NavItem = ({ linkName, icon, onClick, active, id }) => {
     <li
       id={id}
       onClick={onClick}
-      className={`w-full flex justify-center items-center gap-2 py-2 rounded-3xl ${
+      className={`flex justify-center items-center gap-1 sm:gap-2 py-2 rounded-3xl bg-gray-100 md:bg-none ${
         active ? "bg-mainColor text-white" : ""
-      } text-sm cursor-pointer`}
+      } text-xs sm:text-sm cursor-pointer`}
     >
       <span>{icon}</span>
       <span>{linkName}</span>
@@ -36,9 +36,9 @@ const RestaurantDetails = () => {
   };
 
   return (
-    <div className="bg-gray-100 h-[90vh] pt-12">
-      <nav>
-        <ul className={`${sideMenu ? "w-1/3" : "w-2/3"} mx-auto flex justify-between bg-white rounded-3xl`}>
+    <div className={`h-[90vh] pt-12`}>
+      <nav className="">
+        <ul className={`w-11/12 lg:w-2/3 mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 md:bg-gray-100 rounded-3xl`}>
           <NavItem
             onClick={() => handleClick("Edit Menu", 1)}
             icon={<MdEdit />}
