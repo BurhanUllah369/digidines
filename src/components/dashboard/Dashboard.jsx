@@ -1,3 +1,4 @@
+// Dashboard.js
 import React from "react";
 import TopNav from "./panels/TopNav";
 import SideNav from "./panels/SideNav";
@@ -6,20 +7,28 @@ import RestaurantDetails from "./RestaurantDetails";
 import { Route, Routes } from "react-router-dom";
 import EditMenu from "./EditMenu";
 import EditProduct from "./EditProduct";
+import EditAddOns from "./EditAddOns";
+import CustomerMenu from "./CustomerMenu";
+import Support from "./Support";
+import QrCode from "./QrCode";
 
 const Dashboard = () => {
   return (
     <section>
       <section className="flex">
-        <SideNav />
+        {/* <SideNav /> */}
         <TopNav />
       </section>
       <section className="">
         <Routes>
-          <Route path="/restaurants" element={<Restaurants />} />
-          <Route path="/r" element={<RestaurantDetails />} />
-          <Route path="/edit-menu" element={<EditMenu />} />
-          <Route path="/edit-product" element={<EditProduct />} />
+          <Route path="/r" element={<Restaurants />} />
+          <Route path="/r/:restaurant" element={<RestaurantDetails />} />
+          <Route path="/menus/:restaurant" element={<CustomerMenu />} />
+          <Route path="/r/:restaurant/edit-menu" element={<EditMenu />} />
+          <Route path="/r/:restaurant/edit-menu/edit-product" element={<EditProduct />} />
+          <Route path="/r/:restaurant/edit-addon" element={<EditAddOns />} />
+          <Route path="/r/:restaurant/qr-code" element={<QrCode />} />
+          <Route path="/r/:restaurant/support" element={<Support />} />
         </Routes>
       </section>
     </section>

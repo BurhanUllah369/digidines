@@ -1,10 +1,21 @@
 import React, { useState } from "react";
-import { useSideMenuContext } from "../../context/sideMenuContext";
 import { Link } from "react-router-dom";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdModeEditOutline } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
+import { useRestaurantsPathsContext } from "../../context/restaurantsPathsContext";
+import { IoFastFood } from "react-icons/io5";
 
 const Restaurant = ({ name }) => {
+  const { setSelectedRestaurantName } = useRestaurantsPathsContext();
+
+  const formatRestaurantNameForUrl = (name) => {
+    return name.trim().replace(/\s+/g, "-").toLowerCase();
+  };
+
+  const handleRestaurantClick = () => {
+    setSelectedRestaurantName(name);
+  };
+
   return (
     <section className="bg-white shadow-lg rounded">
       <img
@@ -16,14 +27,26 @@ const Restaurant = ({ name }) => {
         <h2 className="flex items-center justify-between text-xl font-bold">
           <span>{name}</span>
         </h2>
-        <p className="mt-2 text-gray-500">digidines.com/r/a</p>
-        <section className="flex justify-center gap-3">
-          <button className="px-4 py-2 mt-4 bg-mainColor rounded text-white text-sm">
-            Customer Menu
-          </button>
-          <Link to="/r">
-            <button className="px-4 py-2 mt-4 bg-green-500 rounded text-white text-sm">
-              Edit Restaurant
+        <p className="mt-2 text-gray-500">
+          digidines.com/r/{formatRestaurantNameForUrl(name)}
+        </p>
+        <section className="mt-4 flex justify-center gap-4">
+          <Link
+            onClick={handleRestaurantClick}
+            to={`/menus/${formatRestaurantNameForUrl(name)}`}
+          >
+            <button className="w-full px-4 py-2  flex items-center gap-2 bg-mainColor rounded text-white text-sm">
+              <IoFastFood className="text-lg" />
+              <span>Menu</span>
+            </button>
+          </Link>
+          <Link
+            onClick={handleRestaurantClick}
+            to={`/r/${formatRestaurantNameForUrl(name)}`}
+          >
+            <button className="w-full px-4 py-2 flex items-center gap-2 bg-green-500 rounded text-white text-sm">
+              <MdModeEditOutline className="text-lg" />
+              <span>Edit</span>
             </button>
           </Link>
         </section>

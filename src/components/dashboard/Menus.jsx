@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { useEditRestaurantContext } from "../../context/editRestaurant";
 import { RxCross2 } from "react-icons/rx";
+import { useRestaurantsPathsContext } from "../../context/restaurantsPathsContext"; // Import the context hook
+import { useEditRestaurantContext } from "../../context/editRestaurant";
 
 const Menu = ({ menuName }) => {
+  const { selectedRestaurant } = useRestaurantsPathsContext(); // Access the selected restaurant name from the context
+
   const handleDelete = () => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this menu?"
@@ -29,7 +32,7 @@ const Menu = ({ menuName }) => {
         </h2>
         <p className="mt-2 text-gray-500">Description</p>
         <section className="py-2 flex mt-4 justify-center items-center gap-1 sm:gap-3 rounded-lg text-lg">
-          <Link to="/edit-menu" className="">
+          <Link to={`/r/${selectedRestaurant}/edit-menu`} className="">
             <button className="flex items-center gap-2 bg-green-500 rounded-lg py-1 px-3 text-white text-xs xs:text-sm">
               <p>Edit</p>
               <MdEdit className="cursor-pointer" />
@@ -51,6 +54,7 @@ const Menu = ({ menuName }) => {
 const Menus = () => {
   const { showRestaurantSection } = useEditRestaurantContext();
   const [addMenu, setAddMenu] = useState(false);
+  
   return (
     <section
       className={`${showRestaurantSection == 1 ? "block" : "hidden"} relative`}
@@ -104,7 +108,7 @@ const Menus = () => {
             <label className="text-sm" htmlFor="menuImage">
               Select Menu Image
             </label>
-            <input type="file" id="menuImage" />
+            <input type="file" id="menuImage" accept="image/*" />
           </section>
           <button className="w-full py-2 bg-mainColor rounded-lg text-white">
             Submit

@@ -2,8 +2,15 @@ import React from "react";
 import { IoMdAdd } from "react-icons/io";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useEditRestaurantContext } from "../../context/editRestaurant";
+import { Link } from "react-router-dom";
+import { useRestaurantsPathsContext } from "../../context/restaurantsPathsContext";
 
-const AddOn = () => {
+const AddOn = ({selectedRestaurant}) => {
+  const handlDelClick = () => {
+    const confirm = window.confirm("Are you sure you want to delete this coupon?")
+    if(confirm) alert("Addon Deleted!")
+  }
+
   return (
     <section className="flex flex-col gap-4 py-4 px-6 border rounded-lg shadow-lg">
       <h2 className="text-xl font-bold text-center">Addon 1</h2>
@@ -20,11 +27,12 @@ const AddOn = () => {
         <span className="font-bold">$30.00</span>
       </p>
       <section className="mt-3 flex justify-center items-center gap-4 text-sm">
+        <Link to={`/r/${selectedRestaurant}/edit-addon`}>
         <button className="flex justify-center items-center gap-2 bg-green-500 py-1 px-3 rounded-lg text-white">
           <span>Edit</span>
           <MdEdit className="" />
-        </button>
-        <button className="flex justify-center items-center gap-2 bg-red-600 py-1 px-3 rounded-lg text-white">
+        </button></Link>
+        <button onClick={handlDelClick} className="flex justify-center items-center gap-2 bg-red-600 py-1 px-3 rounded-lg text-white">
           <span>Delete</span>
           <MdDelete className="" />
         </button>
@@ -35,21 +43,23 @@ const AddOn = () => {
 
 const AddOns = () => {
   const {showRestaurantSection} = useEditRestaurantContext()
+  const {selectedRestaurant} = useRestaurantsPathsContext()
 
   return (
     <section className={`${showRestaurantSection == 2 ? "block" : "hidden"} mb-12`}>
       <section className="mt-12 flex items-center justify-between">
         <h1 className="text-xl sm:text-3xl font-bold">Add-Ons</h1>
+        <Link to={`/r/${selectedRestaurant}/edit-addon`}>
         <button className="flex justify-center items-center gap-1 font-bold underline text-sm sm:text-base">
           <span>Add AddOn</span>
           <IoMdAdd />
-        </button>
+        </button></Link>
       </section>
       <section className="mt-4 grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <AddOn />
-        <AddOn />
-        <AddOn />
-        <AddOn />
+        <AddOn selectedRestaurant={selectedRestaurant} />
+        <AddOn selectedRestaurant={selectedRestaurant} />
+        <AddOn selectedRestaurant={selectedRestaurant} />
+        <AddOn selectedRestaurant={selectedRestaurant} />
       </section>
     </section>
   );

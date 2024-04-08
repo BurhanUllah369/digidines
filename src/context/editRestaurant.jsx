@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 const SideMenuContext = createContext();
 
@@ -7,14 +7,32 @@ export const useEditRestaurantContext = () => {
 };
 
 export const RestaurantSectionProvider = ({ children }) => {
-  const [showRestaurantSection, setShowRestaurantSection] = useState(1); 
+  const initialShowRestaurantSection = parseInt(localStorage.getItem("showRestaurantSection")) || 1;
+  const [showRestaurantSection, setShowRestaurantSection] = useState(initialShowRestaurantSection);
 
-  const toggleRestaurantSection = (e) => { 
+  useEffect(() => {
+    localStorage.setItem("showRestaurantSection", showRestaurantSection);
+
+    const handleWindowReload = () => {
+      localStorage.removeItem("showRestaurantSection");
+    };
+  
+    window.addEventListener("beforeunload", handleWindowReload);
+  
+    return () => {
+      window.removeEventListener("beforeunload", handleWindowReload);
+    };
+
+  }, [showRestaurantSection]);
+
+  const toggleRestaurantSection = (e) => {
     setShowRestaurantSection(e);
   };
 
   return (
-    <SideMenuContext.Provider value={{ showRestaurantSection, toggleRestaurantSection }}>
+    <SideMenuContext.Provider
+      value={{ showRestaurantSection, toggleRestaurantSection }}
+    >
       {children}
     </SideMenuContext.Provider>
   );

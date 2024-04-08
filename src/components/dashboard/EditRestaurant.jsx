@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRestaurantDetailsContext } from "../../context/restaurantDetailsContext";
 import { FaWifi } from "react-icons/fa";
 import { IoFastFoodSharp, IoListSharp, IoLocation } from "react-icons/io5";
@@ -16,6 +16,9 @@ import Tables from "./Tables";
 import { ImSpoonKnife } from "react-icons/im";
 import { PiForkKnifeFill } from "react-icons/pi";
 import { useEditRestaurantContext } from "../../context/editRestaurant";
+import { FaQrcode } from "react-icons/fa";
+import { MdOutlineSupportAgent } from "react-icons/md";
+import { useRestaurantsPathsContext } from "../../context/restaurantsPathsContext";
 
 const NavItem = ({ linkName, icon, onClick, active, id }) => {
   return (
@@ -41,6 +44,24 @@ const EditMenu = () => {
   const [couponEdit, setCouponEdit] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [activeLink, setActiveLink] = useState("Menu");
+  const { selectedRestaurant } = useRestaurantsPathsContext(); 
+
+  useEffect(() => {
+    const storedActiveLink = localStorage.getItem("activeLink");
+    if (storedActiveLink) {
+      setActiveLink(storedActiveLink);
+    }
+
+    const handleWindowReload = () => {
+      localStorage.removeItem("activeLink");
+    };
+
+    window.addEventListener("beforeunload", handleWindowReload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleWindowReload);
+    };
+  }, []);
 
   const handleMenuClick = (menuId) => {
     setSelectedMenu(menuId === selectedMenu ? null : menuId);
@@ -48,6 +69,7 @@ const EditMenu = () => {
 
   const handleClick = (linkName, id) => {
     setActiveLink(linkName);
+    localStorage.setItem("activeLink", linkName);
     toggleRestaurantSection(id);
   };
 
@@ -56,7 +78,6 @@ const EditMenu = () => {
       "Are you sure you want to delete this Coupon?"
     );
     if (isConfirmed) {
-      // Perform delete operation here
       alert("Coupon deleted!");
     }
   };
@@ -72,13 +93,23 @@ const EditMenu = () => {
           editRestaurant || coupon || settings ? "opacity-20" : "opacity-100"
         }`}
       >
-        <Link
-          to="/restaurants"
-          className="mb-4 flex items-center gap-2 text-sm"
-        >
-          <FaArrowLeftLong className="cursor-pointer" />
-          <span>Back</span>
-        </Link>
+        <section className="mb-6 flex items-center justify-between">
+          <Link to={`/r`} className="flex items-center gap-2 text-sm">
+            <FaArrowLeftLong className="cursor-pointer" />
+            <span>Back</span>
+          </Link>
+
+          <section className="flex gap-5">
+            <Link to={`/r/${selectedRestaurant}/qr-code`} className="flex items-center gap-2">
+              <p className="text-sm font-bold">QR Code</p>
+              <FaQrcode />
+            </Link>
+            <Link to={`/r/${selectedRestaurant}/support`} className="flex items-center gap-2">
+              <p className="text-sm font-bold">Support</p>
+              <MdOutlineSupportAgent />
+            </Link>
+          </section>
+        </section>
         <section className="relative">
           <div className="w-full h-48 relative">
             <img
@@ -199,9 +230,9 @@ const EditMenu = () => {
             placeholder="Wifi Password"
           />
           <label className="text-lg font-bold">Restaurant Image</label>
-          <input type="file" />
+          <input type="file" accept="image/*"  />
           <label className="text-lg font-bold">Restaurant Logo</label>
-          <input type="file" />
+          <input type="file" accept="image/*" />
           <button className="w-full py-2 bg-mainColor rounded-lg text-white">
             Submit
           </button>

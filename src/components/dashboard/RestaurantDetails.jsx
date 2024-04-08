@@ -5,7 +5,7 @@ import { FaClipboardList } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 import { FaStar } from "react-icons/fa";
 import { useRestaurantDetailsContext } from "../../context/restaurantDetailsContext";
-import EditMenu from "./EditRestaurant";
+import EditRestaurant from "./EditRestaurant";
 import Orders from "./Orders";
 import OrdersReports from "./OrdersReport";
 import RatingsAndComments from "./RatingsAndComments";
@@ -69,7 +69,7 @@ const RestaurantDetails = () => {
           />
         </ul>
       </nav>
-      <EditMenu />
+      <EditRestaurant />
       <Orders />
       <OrdersReports />
       <RatingsAndComments />
