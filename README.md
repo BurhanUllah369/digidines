@@ -29,7 +29,3 @@
 ### QR code 
 - react-qr-code
 
-
-- customer menu 
-- connecting dashboard to landing page. 
-- menu item details
