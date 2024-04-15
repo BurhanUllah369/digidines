@@ -7,7 +7,7 @@ import { useRestaurantsPathsContext } from "../../context/restaurantsPathsContex
 const EditProduct = () => {
   const { selectedRestaurant } = useRestaurantsPathsContext();
   return (
-    <section className="w-11/12 sm:w-5/6 md:w-3/5 mx-auto my-12 py-12 px-6 xs:p-12 bg-gray-100">
+    <section className="mx-auto my-12 w-11/12 bg-gray-100 px-6 py-12 xs:p-12 sm:w-5/6 md:w-3/5">
       <Link
         to={`/r/${selectedRestaurant}/edit-menu`}
         className="mb-4 flex items-center gap-2 text-sm"
@@ -22,34 +22,34 @@ const EditProduct = () => {
         className="mt-4 flex flex-col gap-3"
       >
         <input
-          className="py-2 px-3 outline-none border rounded-lg text-sm"
+          className="rounded-lg border px-3 py-2 text-sm outline-none"
           type="text"
           placeholder="Item name"
         />
         <input
-          className="py-2 px-3 outline-none border rounded-lg text-sm"
+          className="rounded-lg border px-3 py-2 text-sm outline-none"
           type="number"
           placeholder="Price"
         />
 
         {/* Add variation start  */}
         <p className="mt-3 font-bold">Variation 1</p>
-        <section className="flex flex-col sm:flex-row justify-between gap-3">
+        <section className="flex flex-col justify-between gap-3 sm:flex-row">
           <input
-            className="w-full py-2 px-3 outline-none border rounded-lg text-sm"
+            className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
             type="text"
             placeholder="Variation 1 Name"
           />
           <input
-            className="w-full py-2 px-3 outline-none border rounded-lg text-sm"
+            className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
             type="number"
             placeholder="Variation 1 Price"
           />
-          <button className="px-4 py-2 bg-red-600 rounded-lg text-white text-sm">
+          <button className="rounded-lg bg-red-600 px-4 py-2 text-sm text-white">
             Remove
           </button>
         </section>
-        <button className="w-full flex justify-center items-center gap-2 py-2 bg-green-500 rounded-lg text-white">
+        <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-green-500 py-2 text-white">
           <IoMdAdd />
           <span>Add Variation</span>
         </button>
@@ -62,7 +62,7 @@ const EditProduct = () => {
           cols="30"
           rows="4"
           placeholder="Description"
-          className="py-2 px-3 outline-none border rounded-lg text-sm"
+          className="rounded-lg border px-3 py-2 text-sm outline-none"
         ></textarea>
         <section className="mt-3 flex items-center gap-2">
           <label className="text-sm" htmlFor="isVisible">
@@ -87,7 +87,7 @@ const EditProduct = () => {
         <select
           name=""
           id=""
-          className="mt-3 py-2 px-3 outline-none border rounded-lg"
+          className="mt-3 rounded-lg border px-3 py-2 outline-none"
         >
           <option value="">Select</option>
           <option value="">Add On 1</option>
@@ -96,11 +96,11 @@ const EditProduct = () => {
         <section className="mt-4 flex gap-4">
           <Link
             to={`/r/${selectedRestaurant}/edit-menu`}
-            className="w-full bg-headerBg rounded-lg flex items-center justify-center"
+            className="flex w-full items-center justify-center rounded-lg bg-headerBg"
           >
             <button className="text-white">Back</button>
           </Link>
-          <button className="w-full py-2 bg-green-500 rounded-lg text-white">
+          <button className="w-full rounded-lg bg-green-500 py-2 text-white">
             Create
           </button>
         </section>

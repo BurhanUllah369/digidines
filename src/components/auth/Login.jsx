@@ -4,7 +4,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api";
-import { useMenuContext } from "../../context/menuContext";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -19,7 +18,6 @@ const initialValues = {
 const Login = () => {
   const [errMessage, setErrorMessage] = useState("");
   const [showErrMessage, setShowErrMessage] = useState(false);
-  const { showMenuItems, toggleMenuItems } = useMenuContext();
   const navigate = useNavigate();
 
   // if already logged in then no access to login page
@@ -39,12 +37,10 @@ const Login = () => {
 
       const accessToken = response.data.token.access;
       localStorage.setItem("accessToken", accessToken);
-      toggleMenuItems(false);
       
       navigate("/");
-      window.location.reload()
     } catch (error) {
-      setErrorMessage(JSON.parse(error.request.response).message);
+      setErrorMessage(error.response.data.message);
       setShowErrMessage(true);
       setTimeout(() => {
         setShowErrMessage(false);

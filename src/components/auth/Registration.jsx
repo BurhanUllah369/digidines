@@ -69,9 +69,10 @@ const Register = () => {
       }
       setErrorMessage(err);
 
-      // resetForm();
+      resetForm();
     }
   };
+
 
   return (
     <div className="w-full h-full bg-gray-50 pt-12">

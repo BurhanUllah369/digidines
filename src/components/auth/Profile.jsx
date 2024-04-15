@@ -22,10 +22,9 @@ const Profile = () => {
   const [packageDuration, setPackageDuration] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [isAuthorized, setIsAuthorized] = useState(false);
   const [err, setErr] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
 
   const getUserData = async (token) => {
     try {
@@ -35,7 +34,6 @@ const Profile = () => {
       setUsername(response.data.username);
       setEmail(response.data.email);
       setPhone(response.data.phone_number);
-      setIsAuthorized(response);
       setPackageName(response.data.subscriptions[0].package_details.name);
       setPackageDuration(
         response.data.subscriptions[0].package_details.duration_days
@@ -61,8 +59,10 @@ const Profile = () => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       getUserData(token);
+    } else {
+      navigate("/")
     }
-    token ? setIsLoggedIn(true) : setIsLoggedIn(false);
+
   }, []);
 
   return (

@@ -7,7 +7,7 @@ import { useRestaurantsPathsContext } from "../../context/restaurantsPathsContex
 const EditAddOns = () => {
   const { selectedRestaurant } = useRestaurantsPathsContext();
   return (
-    <section className="w-11/12 sm:w-5/6 md:w-3/5 lg:w-1/2 mx-auto my-12 py-12 px-6 xs:p-12 bg-gray-100">
+    <section className="mx-auto my-12 w-11/12 bg-gray-100 px-6 py-12 xs:p-12 sm:w-5/6 md:w-3/5 lg:w-1/2">
       <Link
         to={`/r/${selectedRestaurant}`}
         className="mb-4 flex items-center gap-2 text-sm"
@@ -24,59 +24,59 @@ const EditAddOns = () => {
         <select
           name=""
           id=""
-          className="py-2 px-3 rounded-lg outline-none border"
+          className="rounded-lg border px-3 py-2 outline-none"
         >
           <option value="">Multiple Choice</option>
           <option value="">Single Choice</option>
         </select>
         <input
-          className="py-2 px-3 outline-none border rounded-lg text-sm"
+          className="rounded-lg border px-3 py-2 text-sm outline-none"
           type="text"
           placeholder="Title"
         />
-        <p className="font-bold text-sm mt-3">Option 1</p>
-        <section className="flex flex-col sm:flex-row justify-between gap-3">
+        <p className="mt-3 text-sm font-bold">Option 1</p>
+        <section className="flex flex-col justify-between gap-3 sm:flex-row">
           <input
-            className="w-full py-2 px-3 outline-none border rounded-lg text-sm"
+            className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
             type="text"
             placeholder="Option 1 Name"
           />
           <input
-            className="w-full py-2 px-3 outline-none border rounded-lg text-sm"
+            className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
             type="number"
             placeholder="Option 1 Price"
           />
-          <button className="py-1 px-3 rounded-lg bg-red-600 text-white">
+          <button className="rounded-lg bg-red-600 px-3 py-1 text-white">
             Remove
           </button>
         </section>
-        <p className="font-bold text-sm mt-3">Option 2</p>
-        <section className="flex flex-col sm:flex-row justify-between gap-3">
+        <p className="mt-3 text-sm font-bold">Option 2</p>
+        <section className="flex flex-col justify-between gap-3 sm:flex-row">
           <input
-            className="w-full py-2 px-3 outline-none border rounded-lg text-sm"
+            className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
             type="text"
             placeholder="Option 2 Name"
           />
           <input
-            className="w-full py-2 px-3 outline-none border rounded-lg text-sm"
+            className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
             type="number"
             placeholder="Option 2 Price"
           />
-          <button className="py-1 px-3 rounded-lg bg-red-600 text-white">
+          <button className="rounded-lg bg-red-600 px-3 py-1 text-white">
             Remove
           </button>
         </section>
-        <button className="mt-4 flex justify-center items-center gap-2 bg-green-500 py-1 rounded-lg text-white">
+        <button className="mt-4 flex items-center justify-center gap-2 rounded-lg bg-green-500 py-1 text-white">
           <IoMdAdd />
           <span> Add Option</span>
         </button>
         <section className="flex justify-center gap-4">
           <Link to={`/r/${selectedRestaurant}`}>
-            <button className="px-4 py-2 mt-4 bg-red-600 rounded-lg text-white">
+            <button className="mt-4 rounded-lg bg-red-600 px-4 py-2 text-white">
               <span> Cancel</span>
             </button>
           </Link>
-          <button className="px-4 py-2 mt-4 bg-green-500 rounded-lg text-white">
+          <button className="mt-4 rounded-lg bg-green-500 px-4 py-2 text-white">
             <span> Submit</span>
           </button>
         </section>

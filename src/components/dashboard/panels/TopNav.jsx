@@ -15,35 +15,7 @@ const TopNav = () => {
         <button onClick={() => toggleSideMenu()}>
           <BiMenuAltLeft className="text-3xl text-mainColor" />
         </button>
-        <img
-          onClick={() => setDetails((pre) => !pre)}
-          className="w-10 h-10 rounded-full cursor-pointer"
-          src="https://slidesigma.com/themes/html/foodtech/assets/img/foodtech/customer-6.jpg"
-          alt=""
-        />
-        <ul
-          style={{ transition: "0.3s ease" }}
-          className={`absolute ${
-            details ? "top-20" : "-top-48"
-          } right-4 bg-white border p-5 rounded-sm`}
-        >
-          <li className="pb-3">
-            <h1 className="text-xl font-bold text-gray-500">Welcome, Anna</h1>
-          </li>
-          <hr />
-          <li className="py-3">
-            <Link className="flex items-center gap-4">
-              <CiUser />
-              <span>Profile</span>
-            </Link>
-          </li>
-          <li className="py-3">
-            <Link className="flex items-center gap-4">
-              <FaPowerOff />
-              <span>Logout</span>
-            </Link>
-          </li>
-        </ul>
+        
       </section>
     </nav>
   );

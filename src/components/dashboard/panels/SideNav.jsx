@@ -36,7 +36,7 @@ const SideNav = () => {
       </section>
       <section className=''>
         {/* <ListItem icon={<MdDashboard />} linkName="" path="/restaurants" toggleSideMenu={toggleSideMenu} /> */}
-        <ListItem path="/restaurants" toggleSideMenu={toggleSideMenu} icon={<FaListCheck />} linkName="Restaurants List" />
+        <ListItem path="/r" toggleSideMenu={toggleSideMenu} icon={<FaListCheck />} linkName="Restaurants List" />
         <ListItem icon={<FaBoxArchive />} linkName="Menus" icon2={<MdKeyboardArrowDown />} />
         <ListItem icon={<FaClipboardList />} linkName="Orders" />
         <ListItem icon={<FaFileInvoice />} linkName="Invoice" icon2={<MdKeyboardArrowDown />} />

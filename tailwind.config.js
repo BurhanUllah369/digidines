@@ -15,8 +15,11 @@ export default {
         headerBg: "#D3A8A4",
       },
       screens: {
-        xs: '375px'
-      }
+        xs: "375px",
+      },
+      boxShadow: {
+        customShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+      },
     },
   },
   plugins: [],
