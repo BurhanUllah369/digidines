@@ -4,10 +4,10 @@ import { useRestaurantsPathsContext } from '../../context/restaurantsPathsContex
 import { Link } from 'react-router-dom'
 
 const Support = () => {
-  const {selectedRestaurant} = useRestaurantsPathsContext()
+  const {selectedRestaurantName} = useRestaurantsPathsContext()
   return (
     <section className='w-11/12 sm:w-5/6 mx-auto lg:w-1/2 mt-12 bg-gray-100 p-6 sm:p-12 rounded-lg'>
-      <Link className="mb-4 flex items-center gap-1 text-sm" to={`/r/${selectedRestaurant}`}>
+      <Link className="mb-4 flex items-center gap-1 text-sm" to={`/r/${selectedRestaurantName}`}>
         <IoIosArrowRoundBack className="text-xl" />
         <span>Back</span>
       </Link>

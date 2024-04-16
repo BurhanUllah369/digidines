@@ -46,7 +46,7 @@ const EditRestaurant = () => {
   const [couponEdit, setCouponEdit] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [activeLink, setActiveLink] = useState("Menu");
-  const { selectedRestaurant } = useRestaurantsPathsContext();
+  const { selectedRestaurantName } = useRestaurantsPathsContext();
   const [activeColor, setActiveColor] = useState("");
   const [restaurant, setRestaurant] = useState([]);
   const [getResError, setGetResErr] = useState("");
@@ -98,7 +98,7 @@ const EditRestaurant = () => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       axios
-        .get(`${API_ENDPOINTS.GET_RESTAURANT_BY_NAME}${selectedRestaurant}/`, {
+        .get(`${API_ENDPOINTS.GET_RESTAURANT_BY_NAME}${selectedRestaurantName}/`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -106,7 +106,7 @@ const EditRestaurant = () => {
         .then((response) => {
           setLoading(true);
           // console.log(response.data.qr_code.qr_link);
-          console.log(response.data)
+          // console.log(response.data)
           setRestaurant(response.data);
           localStorage.setItem("restaurantId", response.data.id);
           setLoading(false);
@@ -114,7 +114,7 @@ const EditRestaurant = () => {
         .catch((error) => {
           setLoading(true);
           setGetResErr(error.response.statusText);
-          console.log(error.response.statusText);
+          // console.log(error.response.statusText);
           setLoading(false);
         });
     }
@@ -200,14 +200,14 @@ const EditRestaurant = () => {
 
               <section className="flex gap-5">
                 <Link
-                  to={`/r/${selectedRestaurant}/qr-code`}
+                  to={`/r/${selectedRestaurantName}/qr-code`}
                   className="flex items-center gap-2"
                 >
                   <p className="text-sm font-bold">QR Code</p>
                   <FaQrcode />
                 </Link>
                 <Link
-                  to={`/r/${selectedRestaurant}/support`}
+                  to={`/r/${selectedRestaurantName}/support`}
                   className="flex items-center gap-2"
                 >
                   <p className="text-sm font-bold">Support</p>

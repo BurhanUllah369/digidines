@@ -37,12 +37,20 @@ today
 - get restaurant by name - done
 - edit restaurant - done
 
+restaurants taking too much time to load
+
 - menus
 - add menu
 - delete menu
 - add product
 - delete product
 - edit product
+
+# addons
+- addons
+- add addon
+- del addon
+- edit addon
 
 2
 ## all tasks
@@ -57,11 +65,6 @@ today
 - add table bulk
 
 3
-# addons
-- addons
-- add addon
-- del addon
-- edit addon
 
 4
 # coupons

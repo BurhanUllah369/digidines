@@ -7,8 +7,8 @@ import { IoFastFood } from "react-icons/io5";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api";
 
-const Restaurant = ({ id, name, imageUrl }) => {
-  const { setSelectedRestaurantId, setSelectedRestaurantName } =
+const Restaurant = ({ urlName, id, name, imageUrl }) => {
+  const { restaurantId, restaurantName, selectedRestaurantName } =
     useRestaurantsPathsContext();
 
   const formatRestaurantNameForUrl = (name) => {
@@ -16,8 +16,9 @@ const Restaurant = ({ id, name, imageUrl }) => {
   };
 
   const handleRestaurantClick = () => {
-    setSelectedRestaurantId(id);
-    setSelectedRestaurantName(name);
+    restaurantId(id);
+    restaurantName(urlName);
+    // console.log(selectedRestaurantName)
   };
 
   return (
@@ -35,12 +36,12 @@ const Restaurant = ({ id, name, imageUrl }) => {
           <span>{name}</span>
         </h2>
         <p className="mt-2 text-gray-500">
-          digidines.com/r/{formatRestaurantNameForUrl(name)}
+          digidines.com/r/{selectedRestaurantName}
         </p>
         <section className="mt-4 flex justify-center gap-4">
           <Link
             onClick={handleRestaurantClick}
-            to={`/menus/${formatRestaurantNameForUrl(name)}`}
+            to={`/menus/${selectedRestaurantName}`}
           >
             <button className="flex w-full items-center  gap-2 rounded bg-mainColor px-4 py-2 text-sm text-white">
               <IoFastFood className="text-lg" />
@@ -49,7 +50,7 @@ const Restaurant = ({ id, name, imageUrl }) => {
           </Link>
           <Link
             onClick={handleRestaurantClick}
-            to={`/r/${formatRestaurantNameForUrl(name)}`}
+            to={`/r/${selectedRestaurantName}`}
           >
             <button className="flex w-full items-center gap-2 rounded bg-green-500 px-4 py-2 text-sm text-white">
               <MdModeEditOutline className="text-lg" />
@@ -80,7 +81,7 @@ const Restaurants = () => {
 
         .then((response) => {
           setRestaurants(response.data);
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((error) => {
           console.error(error);
@@ -132,7 +133,7 @@ const Restaurants = () => {
           setName("");
         })
         .catch((error) => {
-          console.log(error.response.data);
+          // console.log(error.response.data);
           setError(
             error.response.data.error ||
               error.response.data.qr_code.qr_link[0].charAt(0).toUpperCase() +
@@ -174,14 +175,16 @@ const Restaurants = () => {
           </button>
         </section>
         <section className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:gap-12">
-          {restaurants.map((res) => (
+          {restaurants.map((res) =>
             <Restaurant
               key={res.id}
               id={res.id}
               name={res.name}
               imageUrl={res.image_restaurant_url}
+              urlName={res.qr_code.qr_link.slice(2)}
             />
-          ))}
+            // console.log(res.qr_code.qr_link.slice(2)),
+          )}
         </section>
       </section>
 
