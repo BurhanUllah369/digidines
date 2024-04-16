@@ -103,7 +103,7 @@ const Nav = () => {
       setChangeNavbar(false);
     }
 
-    if(location.pathname.includes("/register") || location.pathname.includes("/login")) {
+    if(location.pathname.includes("/register") || location.pathname.includes("/login") || location.pathname.includes("/profile")) {
       setmenuItems(true)
     } else {
       setmenuItems(false)
@@ -203,7 +203,7 @@ const Nav = () => {
             <ul
               className={`${
                 menuItems ? "hidden" : "flex"
-              } flex-col items-start gap-4 px-4 py-4 lg:flex-row lg:gap-6 lg:px-0 lg:py-0`}
+              } flex-col items-start gap-4 px-4 py-4 lg:flex-row lg:gap-4 lg:px-0 lg:py-0`}
             >
               <Link to="/r">
                 <li

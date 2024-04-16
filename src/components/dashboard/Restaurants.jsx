@@ -1,26 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdEdit, MdModeEditOutline } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { useRestaurantsPathsContext } from "../../context/restaurantsPathsContext";
 import { IoFastFood } from "react-icons/io5";
+import axios from "axios";
+import { API_ENDPOINTS } from "../../api/api";
 
-const Restaurant = ({ name }) => {
-  const { setSelectedRestaurantName } = useRestaurantsPathsContext();
+const Restaurant = ({ id, name, imageUrl }) => {
+  const { setSelectedRestaurantId, setSelectedRestaurantName } =
+    useRestaurantsPathsContext();
 
   const formatRestaurantNameForUrl = (name) => {
     return name.trim().replace(/\s+/g, "-").toLowerCase();
   };
 
   const handleRestaurantClick = () => {
+    setSelectedRestaurantId(id);
     setSelectedRestaurantName(name);
   };
 
   return (
-    <section className="rounded bg-white shadow-lg">
+    <section className="rounded bg-white shadow-lg transition duration-150 ease-linear hover:shadow-2xl">
       <img
-        className="w-full rounded-t"
-        src="https://slidesigma.com/themes/html/foodtech/assets/img/foodtech/food-1.jpg"
+        className="h-[200px] w-full rounded-t object-cover"
+        src={
+          imageUrl ||
+          "https://static.vecteezy.com/system/resources/previews/006/303/639/non_2x/simple-icon-local-restaurant-logo-template-design-inspiration-vector.jpg"
+        }
         alt=""
       />
       <section className="p-4">
@@ -58,6 +65,87 @@ const Restaurant = ({ name }) => {
 const Restaurants = () => {
   const [addRestaurant, setAddRestaurant] = useState(false);
   const [url, setUrl] = useState("");
+  const [restaurants, setRestaurants] = useState([]);
+
+  // getting restaurants
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      axios
+        .get(API_ENDPOINTS.RESTAURANTS, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+
+        .then((response) => {
+          setRestaurants(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, []);
+
+  // create restaurant
+  const [name, setName] = useState("");
+  const [currency, setCurrency] = useState(1);
+  const [language, setLanuage] = useState("EN");
+  const [delivery, setDelivery] = useState(false);
+  const [dinein, setDinein] = useState(false);
+  const [pickup, setPickup] = useState(false);
+  const [vat, setVat] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      axios
+        .post(
+          API_ENDPOINTS.CREATE_RESTAURANT,
+          {
+            name: name,
+            currency: currency,
+            language: language,
+            qr_code: {
+              qr_link: `r/${url}`,
+            },
+            service_options: {
+              delivery_available: delivery,
+              dine_in_available: dinein,
+              pickup_available: pickup,
+              vat_applicable: vat,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        )
+        .then((response) => {
+          setSuccess(response.statusText);
+          setName("");
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          setError(
+            error.response.data.error ||
+              error.response.data.qr_code.qr_link[0].charAt(0).toUpperCase() +
+                error.response.data.qr_code.qr_link[0].slice(1),
+          );
+        });
+      setTimeout(() => {
+        setError("");
+        setSuccess("");
+      }, 2000);
+      setAddRestaurant(false);
+    }
+  };
 
   return (
     <div className="">
@@ -66,6 +154,13 @@ const Restaurants = () => {
           addRestaurant ? "opacity-5" : "opacity-100"
         } ml-auto w-full  p-4 sm:p-12`}
       >
+        {success || error ? (
+          <p
+            className={`mb-4 rounded-lg px-3 py-2 text-center font-bold text-white ${success ? "bg-green-500" : "bg-red-600"}`}
+          >
+            {error || success}
+          </p>
+        ) : null}
         <section className="flex flex-col justify-between gap-2 xs:flex-row xs:items-center xs:gap-0">
           <h1 className="text-2xl font-bold xs:text-3xl sm:text-4xl">
             Restaurants
@@ -79,12 +174,14 @@ const Restaurants = () => {
           </button>
         </section>
         <section className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:gap-12">
-          <Restaurant name="Cheezious" />
-          <Restaurant name="Pizza-hut" />
-          <Restaurant name="Food-panda" />
-          <Restaurant name="Spicy-grill" />
-          <Restaurant name="Chinese" />
-          <Restaurant name="Italian" />
+          {restaurants.map((res) => (
+            <Restaurant
+              key={res.id}
+              id={res.id}
+              name={res.name}
+              imageUrl={res.image_restaurant_url}
+            />
+          ))}
         </section>
       </section>
 
@@ -100,14 +197,17 @@ const Restaurants = () => {
           onClick={() => setAddRestaurant(false)}
           className="absolute right-2 top-2 cursor-pointer text-xl"
         />
-        <form className="flex flex-col gap-3" action="">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3" action="">
           <input
             className="rounded-lg border px-3 py-2 text-sm outline-none"
             type="text"
             placeholder="Restaurant Name"
+            required
+            value={name}
             onChange={(e) => {
-              const value = e.target.value.trim().replace(/\s+/g, "-");
-              setUrl(value);
+              const val = e.target.value.trim().replace(/\s+/g, "-");
+              setUrl(val);
+              setName(e.target.value);
             }}
           />
           <section>
@@ -116,39 +216,65 @@ const Restaurants = () => {
               digidines.com/r/{url}
             </p>
           </section>
-          <p className="font-bold">Currency</p>
           <select
-            name=""
-            id=""
+            name="currency"
+            id="currency"
             className="rounded-lg border px-3 py-2 outline-none"
+            value={currency}
+            required
+            onChange={(e) => setCurrency(e.target.value)}
           >
-            <option value="">US Dollar</option>
-            <option value="">Dirham</option>
+            <option value="">Select Currency</option>
+            <option value={1}>US Dollar</option>
+            <option value={2}>Dirham</option>
           </select>
           <p className="font-bold">Language</p>
           <select
-            name=""
-            id=""
+            name="language"
+            id="language"
             className="rounded-lg border px-3 py-2 outline-none"
+            value={language}
+            onChange={(e) => setLanuage(e.target.value)}
           >
-            <option value="">English</option>
-            <option value="">Arabic</option>
+            <option value="">Select Language</option>
+            <option value="EN">English</option>
+            <option value="AR">Arabic</option>
           </select>
           <section className="flex items-center gap-2">
             <label htmlFor="delivery">Delivery Available</label>
-            <input id="delivery" type="checkbox" className="accent-mainColor" />
+            <input
+              onChange={(e) => setDelivery(e.target.checked)}
+              id="delivery"
+              type="checkbox"
+              className="accent-mainColor"
+            />
           </section>
           <section className="flex items-center gap-2">
             <label htmlFor="dinein">Dine In Available</label>
-            <input id="dinein" type="checkbox" className="accent-mainColor" />
+            <input
+              onChange={(e) => setDinein(e.target.checked)}
+              id="dinein"
+              type="checkbox"
+              className="accent-mainColor"
+            />
           </section>
           <section className="flex items-center gap-2">
             <label htmlFor="pickup">Pickup Available</label>
-            <input id="pickup" type="checkbox" className="accent-mainColor" />
+            <input
+              onChange={(e) => setPickup(e.target.checked)}
+              id="pickup"
+              type="checkbox"
+              className="accent-mainColor"
+            />
           </section>
           <section className="flex items-center gap-2">
             <label htmlFor="vat">Vat Available</label>
-            <input id="vat" type="checkbox" className="accent-mainColor" />
+            <input
+              onChange={(e) => setVat(e.target.checked)}
+              id="vat"
+              type="checkbox"
+              className="accent-mainColor"
+            />
           </section>
           <button className="w-full rounded-lg bg-mainColor py-2 text-white">
             Submit

@@ -29,3 +29,50 @@
 ### QR code 
 - react-qr-code
 
+    
+1
+today
+- restaurants - done
+- add restaurant - done
+- get restaurant by name - done
+- edit restaurant - done
+
+- menus
+- add menu
+- delete menu
+- add product
+- delete product
+- edit product
+
+2
+## all tasks
+# tables
+- tables
+- add location
+- delete location
+- edit location
+- add table
+- edit table
+- delete table
+- add table bulk
+
+3
+# addons
+- addons
+- add addon
+- del addon
+- edit addon
+
+4
+# coupons
+- add coupons
+- edit coupon
+- del coupons
+
+5
+# design
+- product detail page (admin)
+- menu swap (admin)
+- orders
+- order reports
+- ratings and comments

@@ -6,25 +6,34 @@ export const useRestaurantsPathsContext = () =>
   useContext(RestaurantsPathsContext);
 
 export const RestaurantsPathsProvider = ({ children }) => {
-  const [selectedRestaurant, setSelectedRestaurant] = useState(() => {
-    // Retrieve the selected restaurant from local storage, or default to an empty string if not found
-    return localStorage.getItem("selectedRestaurant") || "";
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(() => {
+    return localStorage.getItem("selectedRestaurantId") || "";
   });
 
-  const setSelectedRestaurantName = (name) => {
-    setSelectedRestaurant(name.toLowerCase());
+  const [selectedRestaurantName, setSelectedRestaurantName] = useState(() => {
+    return localStorage.getItem("selectedRestaurantName") || "";
+  });
+
+  const restaurantId = (id) => {
+    setSelectedRestaurantId(id);
   };
 
+  const restaurantName = (name) => {
+    setSelectedRestaurantName(name.toLowerCase());
+  }
+
   useEffect(() => {
-    // Save the selected restaurant to local storage whenever it changes
-    localStorage.setItem("selectedRestaurant", selectedRestaurant);
-  }, [selectedRestaurant]);
+    localStorage.setItem("selectedRestaurantId", selectedRestaurantId);
+    localStorage.setItem("selectedRestaurantName", selectedRestaurantName);
+  }, [selectedRestaurantId, selectedRestaurantName]);
 
   return (
     <RestaurantsPathsContext.Provider
       value={{
-        selectedRestaurant,
-        setSelectedRestaurantName,
+        selectedRestaurantId,
+        restaurantId,
+        restaurantName,
+        selectedRestaurantName,
       }}
     >
       {children}
