@@ -13,5 +13,12 @@ export const API_ENDPOINTS = {
     CREATE_RESTAURANT: `${BASE_URL}/api/create-restaurant/`,
     GET_SINGLE_RESTAURANT: `${BASE_URL}/api/my-restaurants/`,
     GET_RESTAURANT_BY_NAME: `${BASE_URL}/r/`,
-    UPDATE_RESTAURANT_DATA: `${BASE_URL}/api/restaurants/`
+    UPDATE_RESTAURANT_DATA: `${BASE_URL}/api/restaurants/`,
+    MENU_LIST: `${BASE_URL}/api/list-menu/`,
+    CREATE_MENU: `${BASE_URL}/api/create-menu/`,
+    DELETE_MENU: `${BASE_URL}/api/delete-menu/`,
+    UPDATE_MENU: `${BASE_URL}/api/update-menu/`,
+    DELETE_MENU_ITEM: `${BASE_URL}/api/delete-menu-item/`,
+    CREATE_MENU_ITEM: `${BASE_URL}/api/create-menu-item/`,
+    UPDATE_MENU_ITEM: `${BASE_URL}/api/update-menu-item/4/`
 }

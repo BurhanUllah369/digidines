@@ -4,7 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useRestaurantsPathsContext } from "../../context/restaurantsPathsContext";
 
-const EditProduct = () => {
+const AddProduct = () => {
   const { selectedRestaurant } = useRestaurantsPathsContext();
   return (
     <section className="mx-auto my-12 w-11/12 bg-gray-100 px-6 py-12 xs:p-12 sm:w-5/6 md:w-3/5">
@@ -15,7 +15,7 @@ const EditProduct = () => {
         <FaArrowLeftLong className="cursor-pointer" />
         <span>Back</span>
       </Link>
-      <h1 className="text-3xl font-bold">Edit Product</h1>
+      <h1 className="text-3xl font-bold">Add Product</h1>
       <form
         onSubmit={(e) => e.preventDefault()}
         action=""
@@ -109,4 +109,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct;
+export default AddProduct;

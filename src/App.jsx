@@ -16,6 +16,7 @@ import EditProduct from "./components/dashboard/EditProduct";
 import EditAddOns from "./components/dashboard/EditAddOns";
 import QrCode from "./components/dashboard/QrCode";
 import Support from "./components/dashboard/Support";
+import AddProduct from "./components/dashboard/AddProduct";
 
 const App = () => {
   return (
@@ -39,6 +40,10 @@ const App = () => {
         <Route
           path="/r/:restaurant/edit-menu/edit-product"
           element={<EditProduct />}
+        />
+        <Route
+          path="/r/:restaurant/edit-menu/add-product"
+          element={<AddProduct />}
         />
         <Route path="/r/:restaurant/edit-addon" element={<EditAddOns />} />
         <Route path="/r/:restaurant/qr-code" element={<QrCode />} />

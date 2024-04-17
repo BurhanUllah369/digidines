@@ -32,18 +32,20 @@
     
 1
 today
-- restaurants - done
-- add restaurant - done
-- get restaurant by name - done
-- edit restaurant - done
+- restaurants - (done)
+- add restaurant - (done)
+- get restaurant by name - (done)
+- edit restaurant - (done)
 
 restaurants taking too much time to load
 
-- menus
-- add menu
-- delete menu
-- add product
-- delete product
+- menus (done)
+- add menu (done)
+- delete menu (done)
+- edit menu (done)
+- get products (done)
+- add product 
+- delete product (done)
 - edit product
 
 # addons
