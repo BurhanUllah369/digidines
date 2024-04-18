@@ -49,10 +49,10 @@ restaurants taking too much time to load
 - edit product
 
 # addons
-- addons
-- add addon
-- del addon
-- edit addon
+- addons (done)
+- add addon (done)
+- del addon (done)
+- edit addon (done)
 
 2
 ## all tasks
@@ -70,6 +70,7 @@ restaurants taking too much time to load
 
 4
 # coupons
+- get coupons
 - add coupons
 - edit coupon
 - del coupons

@@ -20,5 +20,9 @@ export const API_ENDPOINTS = {
     UPDATE_MENU: `${BASE_URL}/api/update-menu/`,
     DELETE_MENU_ITEM: `${BASE_URL}/api/delete-menu-item/`,
     CREATE_MENU_ITEM: `${BASE_URL}/api/create-menu-item/`,
-    UPDATE_MENU_ITEM: `${BASE_URL}/api/update-menu-item/4/`
+    UPDATE_MENU_ITEM: `${BASE_URL}/api/update-menu-item/4/`,
+    GET_ADDONS: `${BASE_URL}/api/addons/`,
+    DELETE_ADDON: `${BASE_URL}/api/add-ons/delete/`,
+    ADD_ADDON: `${BASE_URL}/api/add-ons/create/`,
+    EDIT_ADDON: `${BASE_URL}/api/add-ons/update/`
 }

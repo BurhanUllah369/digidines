@@ -13,10 +13,11 @@ import Cart from "./components/dashboard/Cart";
 import MenuItemDetails from "./components/dashboard/MenuItemDetails";
 import EditMenu from "./components/dashboard/EditMenu";
 import EditProduct from "./components/dashboard/EditProduct";
-import EditAddOns from "./components/dashboard/EditAddOns";
+import EditAddOn from "./components/dashboard/EditAddOn";
 import QrCode from "./components/dashboard/QrCode";
 import Support from "./components/dashboard/Support";
 import AddProduct from "./components/dashboard/AddProduct";
+import AddAddon from "./components/dashboard/AddAddon";
 
 const App = () => {
   return (
@@ -45,7 +46,8 @@ const App = () => {
           path="/r/:restaurant/edit-menu/add-product"
           element={<AddProduct />}
         />
-        <Route path="/r/:restaurant/edit-addon" element={<EditAddOns />} />
+        <Route path="/r/:restaurant/edit-addon" element={<EditAddOn />} />
+        <Route path="/r/:restaurant/add-addon" element={<AddAddon />} />
         <Route path="/r/:restaurant/qr-code" element={<QrCode />} />
         <Route path="/r/:restaurant/support" element={<Support />} />
       </Routes>
