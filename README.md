@@ -70,10 +70,10 @@ restaurants taking too much time to load
 
 4
 # coupons
-- get coupons
+- get coupons (done)
 - add coupons
 - edit coupon
-- del coupons
+- del coupons (done)
 
 5
 # design

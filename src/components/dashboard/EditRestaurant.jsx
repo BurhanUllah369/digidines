@@ -4,12 +4,11 @@ import { FaWifi } from "react-icons/fa";
 import { IoFastFoodSharp, IoListSharp, IoLocation } from "react-icons/io5";
 import { MdDelete, MdOutlineDescription } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
-import { IoIosSettings } from "react-icons/io";
+import { IoIosSettings, IoMdAddCircle } from "react-icons/io";
 import { FaGift } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import { IoMdAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { FaArrowLeftLong, FaClipboardList } from "react-icons/fa6";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import Menus from "./Menus";
 import AddOns from "./AddOns";
 import Tables from "./Tables";
@@ -46,11 +45,17 @@ const EditRestaurant = () => {
   const [couponEdit, setCouponEdit] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [activeLink, setActiveLink] = useState("Menu");
-  const { selectedRestaurantName } = useRestaurantsPathsContext();
+  const { selectedRestaurantName, selectedRestaurantId } =
+    useRestaurantsPathsContext();
   const [activeColor, setActiveColor] = useState("");
   const [restaurant, setRestaurant] = useState([]);
   const [getResError, setGetResErr] = useState("");
   const [loading, setLoading] = useState(false);
+  const [couponData, setCouponData] = useState([]);
+  const [couponId, setCouponId] = useState("");
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+  const [couponAdd, setCouponAdd] = useState(false);
 
   const handleColorButtonClick = (color) => {
     setActiveColor(color);
@@ -83,12 +88,40 @@ const EditRestaurant = () => {
     toggleRestaurantSection(id);
   };
 
+  // delete coupon
+
   const handleDelCoupon = () => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this Coupon?",
     );
     if (isConfirmed) {
-      alert("Coupon deleted!");
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        axios
+          .delete(`${API_ENDPOINTS.DELETE_COUPON}${couponId}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response) => {
+            setCouponData(
+              couponData.filter((coupon) => coupon.id !== couponId),
+            );
+            setCouponId("");
+            setSuccess("Coupon Deleted");
+            setTimeout(() => {
+              setSuccess("");
+            }, 2000);
+          })
+          .catch((error) => {
+            console.log(error);
+            setError("An error Occurred");
+            setTimeout(() => {
+              setError("");
+            }, 2000);
+          });
+        setCoupon(false);
+      }
     }
   };
 
@@ -98,11 +131,14 @@ const EditRestaurant = () => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       axios
-        .get(`${API_ENDPOINTS.GET_RESTAURANT_BY_NAME}${selectedRestaurantName}/`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
+        .get(
+          `${API_ENDPOINTS.GET_RESTAURANT_BY_NAME}${selectedRestaurantName}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           },
-        })
+        )
         .then((response) => {
           setLoading(true);
           // console.log(response.data.qr_code.qr_link);
@@ -116,6 +152,23 @@ const EditRestaurant = () => {
           setGetResErr(error.response.statusText);
           // console.log(error.response.statusText);
           setLoading(false);
+        });
+
+      // get coupons
+
+      axios
+        .get(`${API_ENDPOINTS.GET_COUPONS}${selectedRestaurantId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setCouponId(response.data[0].id);
+          setCouponData(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     }
   }, []);
@@ -168,13 +221,74 @@ const EditRestaurant = () => {
         },
       )
       .then((response) => {
-        // console.log(response.data);
+        // console.log(response);
         setRestaurant(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
     // setLoading(false)
+  };
+
+  // add coupon
+
+  const [addCouponDiscout, setAddCouponDiscout] = useState("");
+  const [addCouponOrdersReq, setAddCouponOrdersReq] = useState("");
+  const [addCouponOrderPrice, setAddCouponOrderPrice] = useState("");
+  const [addCouponExpDate, setAddCouponExpDate] = useState("");
+  const [addCouponActive, setAddCouponActive] = useState(true);
+
+  const addCoupon = (e) => {
+    e.preventDefault();
+
+    const accessToken = localStorage.getItem("accessToken");
+    const couponData = {
+      discount_percentage: addCouponDiscout,
+      order_requirement: addCouponOrdersReq,
+      minimum_order_price: addCouponOrderPrice,
+      expiry_duration: addCouponExpDate,
+      is_active: addCouponActive,
+    };
+
+    if (accessToken) {
+      axios
+        .post(
+          `${API_ENDPOINTS.ADD_COUPON}${selectedRestaurantId}/coupons/`,
+          couponData,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        )
+        .then((response) => {
+          console.log(response.data);
+          setCouponData(response.data);
+          setSuccess("Coupon Created");
+          setTimeout(() => {
+            setSuccess("");
+          }, 2000);
+        })
+        .catch((error) => {
+          console.log(error);
+          setError("An Error Occurred");
+          setTimeout(() => {
+            setError("");
+          }, 2000);
+        });
+      setCouponAdd(false);
+      setCoupon(false);
+    }
+  };
+
+  // update coupon
+  const [editCouponDiscout, setEditCouponDiscout] = useState("");
+  const [editCouponOrdersReq, setEditCouponOrdersReq] = useState("");
+  const [editCouponOrderPrice, setEditCouponOrderPrice] = useState("");
+  const [editCouponExpDate, setEditCouponExpDate] = useState("");
+  const [editCouponActive, setEditCouponActive] = useState(true);
+  const updateCoupon = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -215,6 +329,13 @@ const EditRestaurant = () => {
                 </Link>
               </section>
             </section>
+            {success || error ? (
+              <p
+                className={`mb-4 mt-12 rounded-lg py-2 text-center font-bold text-white ${success ? "bg-green-500" : "bg-red-600"}`}
+              >
+                {success || error}
+              </p>
+            ) : null}
             <section className="relative">
               {restaurant.image_restaurant_url ||
               restaurant.image_restaurant ? (
@@ -308,7 +429,6 @@ const EditRestaurant = () => {
                 />
               </ul>
             </nav>
-
             <Menus />
             <AddOns />
             <Tables />
@@ -387,40 +507,59 @@ const EditRestaurant = () => {
               onClick={() => setCoupon(false)}
               className="absolute right-2 top-2 cursor-pointer text-xl"
             />
-            <section>
-              <section className="flex items-center justify-between">
-                <h2 className="mb-3 mt-4 text-xl font-bold">Coupon Details</h2>
-                <section className="flex gap-2 text-lg">
-                  <MdEdit
-                    onClick={() => setCouponEdit(true)}
-                    className="cursor-pointer text-green-600"
-                  />
-                  <MdDelete
-                    onClick={handleDelCoupon}
-                    className="cursor-pointer text-red-600"
-                  />
+            {couponData.length ? (
+              couponData.map((cop) => (
+                <section key={cop.id}>
+                  <section className="flex items-center justify-between">
+                    <h2 className="mb-3 mt-4 text-xl font-bold">
+                      Coupon Details
+                    </h2>
+                    <section className="flex gap-2 text-lg">
+                      <MdEdit
+                        onClick={() => setCouponEdit(true)}
+                        className="cursor-pointer text-green-600"
+                      />
+                      <MdDelete
+                        onClick={handleDelCoupon}
+                        className="cursor-pointer text-red-600"
+                      />
+                    </section>
+                  </section>
+                  <section className="text-gray-600">
+                    <p>Discount Percentage: 20</p>
+                    <p>Order Requirements: 2</p>
+                    <p>Minimum Order Price: 10.00</p>
+                    <p>Expiry Duration: 30</p>
+                    <p>Is Currently Active: true</p>
+                    <p>Activation Date: 2024-03-16</p>
+                    <p>Created At: 2024-03-16</p>
+                  </section>
                 </section>
-              </section>
-              <section className="text-gray-600">
-                <p>Discount Percentage: 20</p>
-                <p>Order Requirements: 2</p>
-                <p>Minimum Order Price: 10.00</p>
-                <p>Expiry Duration: 30</p>
-                <p>Is Currently Active: true</p>
-                <p>Activation Date: 2024-03-16</p>
-                <p>Created At: 2024-03-16</p>
-              </section>
-            </section>
+              ))
+            ) : (
+              <>
+                <h1 className="text-center text-2xl font-bold">
+                  No Coupons to show
+                </h1>
+                <button
+                  onClick={() => setCouponAdd(true)}
+                  className="mx-auto mt-4 flex items-center gap-2 rounded-lg bg-green-500 px-3 py-2 text-white outline-none"
+                >
+                  <IoMdAddCircle />
+                  <span>Add Coupons</span>
+                </button>
+              </>
+            )}
 
-            {/* edit and create coupon  */}
+            {/*create coupon  */}
             <section
               className={`${
-                couponEdit ? "block" : "hidden"
+                couponAdd ? "block" : "hidden"
               } absolute left-0 top-0 w-full bg-gray-100 px-4 py-12 shadow-lg xs:p-12`}
             >
               <h1 className="text-2xl font-bold">Create Coupon</h1>
               <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={addCoupon}
                 action=""
                 className="mt-4 flex flex-col gap-3"
               >
@@ -428,21 +567,25 @@ const EditRestaurant = () => {
                   className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
                   type="number"
                   placeholder="Discount Percentage (1% - 100%)"
+                  onChange={(e) => setAddCouponDiscout(e.target.value)}
                 />
                 <input
                   className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
                   type="number"
                   placeholder="Number of Orders Required"
+                  onChange={(e) => setAddCouponOrdersReq(e.target.value)}
                 />
                 <input
                   className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
                   type="number"
                   placeholder="Minimum Order price"
+                  onChange={(e) => setAddCouponOrderPrice(e.target.value)}
                 />
                 <input
                   className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
                   type="number"
                   placeholder="Expiration Duration (in days)"
+                  onChange={(e) => setAddCouponExpDate(e.target.value)}
                 />
                 <section className="mt-3 flex items-center gap-2">
                   <label className="text-sm" htmlFor="isActive">
@@ -452,17 +595,84 @@ const EditRestaurant = () => {
                     id="isActive"
                     className="accent-mainColor"
                     type="checkbox"
+                    onChange={(e) => setAddCouponActive(e.target.checked)}
                   />
                 </section>
                 <section className="mt-4 flex gap-4">
                   <button
-                    onClick={() => setCouponEdit(false)}
+                    onClick={() => {
+                      setCouponAdd(false);
+                    }}
                     className="w-full rounded-lg bg-headerBg py-2 text-white"
                   >
                     Back
                   </button>
                   <button className="w-full rounded-lg bg-mainColor py-2 text-white">
                     Create
+                  </button>
+                </section>
+              </form>
+            </section>
+
+            {/* edit coupon */}
+
+            <section
+              className={`${
+                couponEdit ? "block" : "hidden"
+              } absolute left-0 top-0 w-full bg-gray-100 px-4 py-12 shadow-lg xs:p-12`}
+            >
+              <h1 className="text-2xl font-bold">Update Coupon</h1>
+              <form
+                onSubmit={updateCoupon}
+                action=""
+                className="mt-4 flex flex-col gap-3"
+              >
+                <input
+                  className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
+                  type="number"
+                  placeholder="Discount Percentage (1% - 100%)"
+                  onChange={(e) => setEditCouponDiscout(e.target.value)}
+                />
+                <input
+                  className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
+                  type="number"
+                  placeholder="Number of Orders Required"
+                  onChange={(e) => setEditCouponOrdersReq(e.target.value)}
+                />
+                <input
+                  className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
+                  type="number"
+                  placeholder="Minimum Order price"
+                  onChange={(e) => setEditCouponOrderPrice(e.target.value)}
+                />
+                <input
+                  className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
+                  type="number"
+                  placeholder="Expiration Duration (in days)"
+                  onChange={(e) => setEditCouponExpDate(e.target.value)}
+                />
+                <section className="mt-3 flex items-center gap-2">
+                  <label className="text-sm" htmlFor="isActive">
+                    Is Currently Active
+                  </label>
+                  <input
+                    id="isActive"
+                    className="accent-mainColor"
+                    type="checkbox"
+                    onChange={(e) => setEditCouponActive(e.target.checked)}
+                  />
+                </section>
+                <section className="mt-4 flex gap-4">
+                  <button
+                    onClick={() => {
+                      setCouponEdit(false);
+                    }}
+                    className="w-full rounded-lg bg-headerBg py-2 text-white"
+                  >
+                    Back
+                  </button>
+                  <button className="w-full rounded-lg bg-mainColor py-2 text-white">
+                    Update
                   </button>
                 </section>
               </form>

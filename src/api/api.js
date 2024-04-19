@@ -1,5 +1,3 @@
-import { useRestaurantsPathsContext } from "../context/restaurantsPathsContext"
-
 const BASE_URL = 'https://qrmenu-skytech-ab55aa4342a1.herokuapp.com'
 
 export const API_ENDPOINTS = {
@@ -24,5 +22,8 @@ export const API_ENDPOINTS = {
     GET_ADDONS: `${BASE_URL}/api/addons/`,
     DELETE_ADDON: `${BASE_URL}/api/add-ons/delete/`,
     ADD_ADDON: `${BASE_URL}/api/add-ons/create/`,
-    EDIT_ADDON: `${BASE_URL}/api/add-ons/update/`
+    EDIT_ADDON: `${BASE_URL}/api/add-ons/update/`,
+    GET_COUPONS: `${BASE_URL}/api/coupons/?restaurant_id=`,
+    DELETE_COUPON: `${BASE_URL}/api/coupons/`,
+    ADD_COUPON: `${BASE_URL}/api/restaurants/`
 }
