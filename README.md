@@ -82,3 +82,8 @@ restaurants taking too much time to load
 - orders
 - order reports
 - ratings and comments
+
+
+git remote add origin https://github.com/BurhanUllah369/digidines.git
+
+https://github.com/Skytechccllc/landing-page-digidine.git
