@@ -163,8 +163,8 @@ const EditRestaurant = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
-          setCouponId(response.data[0].id);
+          // console.log(response.data);
+          setCouponId(response.data.length > 0 ? response.data[0].id : null);
           setCouponData(response.data);
         })
         .catch((error) => {
@@ -241,6 +241,16 @@ const EditRestaurant = () => {
   const addCoupon = (e) => {
     e.preventDefault();
 
+    if (addCouponDiscout > 100 || addCouponDiscout < 0) {
+      setError("Discount percentage must be between 0 and 100");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+      setCouponAdd(false);
+      setCoupon(false);
+      return;
+    }
+
     const accessToken = localStorage.getItem("accessToken");
     const couponData = {
       discount_percentage: addCouponDiscout,
@@ -263,7 +273,7 @@ const EditRestaurant = () => {
         )
         .then((response) => {
           console.log(response.data);
-          setCouponData(response.data);
+          setCouponData((prevCouponData) => [...prevCouponData, response.data]);
           setSuccess("Coupon Created");
           setTimeout(() => {
             setSuccess("");
@@ -287,8 +297,61 @@ const EditRestaurant = () => {
   const [editCouponOrderPrice, setEditCouponOrderPrice] = useState("");
   const [editCouponExpDate, setEditCouponExpDate] = useState("");
   const [editCouponActive, setEditCouponActive] = useState(true);
+
+  useEffect(() => {
+    if (couponData.length > 0) {
+      setEditCouponDiscout(couponData[0]?.discount_percentage || "");
+      setEditCouponOrdersReq(couponData[0]?.order_requirement || "");
+      setEditCouponOrderPrice(couponData[0]?.minimum_order_price || "");
+      setEditCouponExpDate(couponData[0]?.expiry_duration || "");
+      setEditCouponActive(couponData[0]?.is_active || true);
+    }
+  }, [couponData]);
+
   const updateCoupon = (e) => {
     e.preventDefault();
+
+    const accessToken = localStorage.getItem("accessToken");
+    const updatedCouponData = {
+      discount_percentage: editCouponDiscout,
+      order_requirement: editCouponOrdersReq,
+      minimum_order_price: editCouponOrderPrice,
+      expiry_duration: editCouponExpDate,
+      is_active: editCouponActive,
+    };
+
+    axios
+      .put(`${API_ENDPOINTS.UPDATE_COUPON}${couponId}/`, updatedCouponData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log("Coupon updated successfully:", response.data);
+        // Update couponData with the updated data
+        const updatedCouponIndex = couponData.findIndex(
+          (coupon) => coupon.id === couponId,
+        );
+        if (updatedCouponIndex !== -1) {
+          const updatedCouponList = [...couponData];
+          updatedCouponList[updatedCouponIndex] = response.data;
+          setCouponData(updatedCouponList);
+        }
+        setSuccess("Coupon Updated");
+        setTimeout(() => {
+          setSuccess("");
+        }, 2000);
+        setCouponEdit(false);
+      })
+      .catch((error) => {
+        console.error("Error updating coupon:", error);
+        setError("An error occurred while updating the coupon");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+      });
+    setCoupon(false);
+    setCouponEdit(false);
   };
 
   return (
@@ -525,14 +588,49 @@ const EditRestaurant = () => {
                       />
                     </section>
                   </section>
-                  <section className="text-gray-600">
-                    <p>Discount Percentage: 20</p>
-                    <p>Order Requirements: 2</p>
-                    <p>Minimum Order Price: 10.00</p>
-                    <p>Expiry Duration: 30</p>
-                    <p>Is Currently Active: true</p>
-                    <p>Activation Date: 2024-03-16</p>
-                    <p>Created At: 2024-03-16</p>
+                  <section className="mt-3 flex flex-col gap-3 text-gray-600">
+                    <p className="flex justify-between rounded-lg border px-2 py-1">
+                      <span>Discount Percentage:</span>
+                      <span className="font-bold">
+                        {couponData[0].discount_percentage}
+                      </span>
+                    </p>
+                    <p className="flex justify-between rounded-lg border px-2 py-1">
+                      <span>Order Requirements:</span>
+                      <span className="font-bold">
+                        {couponData[0].order_requirement}
+                      </span>
+                    </p>
+                    <p className="flex justify-between rounded-lg border px-2 py-1">
+                      <span>Minimum Order Price:</span>
+                      <span className="font-bold">
+                        {couponData[0].minimum_order_price}
+                      </span>
+                    </p>
+                    <p className="flex justify-between rounded-lg border px-2 py-1">
+                      <span>Expiry Duration:</span>
+                      <span className="font-bold">
+                        {couponData[0].expiry_duration}
+                      </span>
+                    </p>
+                    <p className="flex justify-between rounded-lg border px-2 py-1">
+                      <span>Is Currently Active:</span>
+                      <span className="font-bold">
+                        {couponData[0].is_active ? "true" : "false"}
+                      </span>
+                    </p>
+                    <p className="flex justify-between rounded-lg border px-2 py-1">
+                      <span>Activation Date:</span>
+                      <span className="font-bold">
+                        {couponData[0].activation_date.slice(0, 10)}
+                      </span>
+                    </p>
+                    <p className="flex justify-between rounded-lg border px-2 py-1">
+                      <span>Created At:</span>
+                      <span className="font-bold">
+                        {couponData[0].created_at.slice(0, 10)}
+                      </span>
+                    </p>
                   </section>
                 </section>
               ))
@@ -631,24 +729,28 @@ const EditRestaurant = () => {
                   className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
                   type="number"
                   placeholder="Discount Percentage (1% - 100%)"
+                  value={editCouponDiscout}
                   onChange={(e) => setEditCouponDiscout(e.target.value)}
                 />
                 <input
                   className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
                   type="number"
                   placeholder="Number of Orders Required"
+                  value={editCouponOrdersReq}
                   onChange={(e) => setEditCouponOrdersReq(e.target.value)}
                 />
                 <input
                   className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
                   type="number"
                   placeholder="Minimum Order price"
+                  value={editCouponOrderPrice}
                   onChange={(e) => setEditCouponOrderPrice(e.target.value)}
                 />
                 <input
                   className="w-full rounded-lg border px-3 py-2 text-sm outline-none"
                   type="number"
                   placeholder="Expiration Duration (in days)"
+                  value={editCouponExpDate}
                   onChange={(e) => setEditCouponExpDate(e.target.value)}
                 />
                 <section className="mt-3 flex items-center gap-2">
@@ -659,6 +761,7 @@ const EditRestaurant = () => {
                     id="isActive"
                     className="accent-mainColor"
                     type="checkbox"
+                    value={editCouponActive}
                     onChange={(e) => setEditCouponActive(e.target.checked)}
                   />
                 </section>

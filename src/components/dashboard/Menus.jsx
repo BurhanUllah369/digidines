@@ -8,6 +8,8 @@ import { useEditRestaurantContext } from "../../context/editRestaurant";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api";
+import { useMenuContext } from "../../context/menuContext";
+import { useProductContext } from "../../context/productContext";
 
 const Menu = ({
   menuName,
@@ -20,7 +22,8 @@ const Menu = ({
   setLoading,
 }) => {
   const { selectedRestaurantName, selectedRestaurantId } =
-    useRestaurantsPathsContext(); // Access the selected restaurant name from the context
+    useRestaurantsPathsContext();
+  const { selectMenu } = useMenuContext();
 
   const [editMenu, setEditMenu] = useState(false);
   const [menuEditName, setMenuEditName] = useState("");
@@ -100,7 +103,10 @@ const Menu = ({
         </h2>
         <section className="mt-4 flex items-center justify-center gap-1 rounded-lg py-2 text-lg sm:gap-3">
           <Link to={`/r/${selectedRestaurantName}/edit-menu`}>
-            <button className="flex items-center gap-2 rounded-lg bg-mainColor px-3 py-1 text-xs text-white xs:text-sm">
+            <button
+              onClick={() => selectMenu(menuId)}
+              className="flex items-center gap-2 rounded-lg bg-mainColor px-3 py-1 text-xs text-white xs:text-sm"
+            >
               <p>Items</p>
               <IoMdAddCircle className="cursor-pointer" />
             </button>
@@ -192,6 +198,7 @@ const Menus = () => {
   const { showRestaurantSection } = useEditRestaurantContext();
   const [addMenu, setAddMenu] = useState(false);
   const { selectedRestaurantId } = useRestaurantsPathsContext();
+  const { updateProduct } = useProductContext();
   const [menu, setMenu] = useState([]);
 
   // get menus
@@ -206,7 +213,12 @@ const Menus = () => {
             Authorization: `Bearer ${token}`,
           },
         })
-        .then((response) => setMenu(response.data))
+        .then((response) => {
+          setMenu(response.data);
+
+          console.log(response.data[0].menu_items);
+          updateProduct(response.data[0].menu_items);
+        })
         .catch((error) => console.log(error));
     }
   };
@@ -248,7 +260,7 @@ const Menus = () => {
 
         setName("");
         setVisible(true);
-        
+
         console.log(response);
         setSuccess(response.request.statusText);
         setTimeout(() => {

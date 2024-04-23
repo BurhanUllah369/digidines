@@ -7,17 +7,18 @@ import { Link } from "react-router-dom";
 import { useRestaurantsPathsContext } from "../../context/restaurantsPathsContext";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api";
+import { useProductContext } from "../../context/productContext";
 
 const MenuItem = ({
   productId,
-  itemName,
   price,
   selectedRestaurantName,
-  imageUrl,
   fetchMenus,
   setSuccess,
-  setError
+  setError,
+  item,
 }) => {
+  const { updateProduct } = useProductContext();
   const handleDelProduct = async () => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this item?",
@@ -34,12 +35,12 @@ const MenuItem = ({
           fetchMenus();
           setSuccess("Item deleted successfully");
           setTimeout(() => {
-            setSuccess("")
+            setSuccess("");
           }, 2000);
         } catch (error) {
           setError("An error Occurred");
           setTimeout(() => {
-            setError("")
+            setError("");
           }, 2000);
           console.log(error);
         }
@@ -51,22 +52,27 @@ const MenuItem = ({
     <section className="rounded bg-white shadow-lg">
       <img
         className="h-40 w-full rounded-t object-cover"
-        src={imageUrl}
+        src={item.image_dropbox_url2}
         alt="Product Image"
       />
       <section className="p-3 xs:p-4">
         <h2 className="flex items-center justify-between text-xl font-bold">
-          <span className="text-2xl">{itemName}</span>
+          <span className="text-2xl">{item.title}</span>
           {price ? (
             <span className="rounded-lg bg-mainColor p-2 text-base text-white">
               ${price}
             </span>
           ) : null}
         </h2>
-        <p className="mt-2 text-gray-500">Description</p>
+        <p className="mt-2 text-gray-500">{item.description}</p>
         <section className="mt-4 flex items-center justify-center gap-1 rounded-lg py-2 text-lg sm:gap-3">
           <Link to={`/r/${selectedRestaurantName}/edit-menu/edit-product`}>
-            <button className="flex items-center gap-1 rounded-lg bg-green-500 px-3 py-1 text-xs text-white xs:gap-2 xs:text-sm">
+            <button
+              onClick={() => {
+                updateProduct(item);
+              }}
+              className="flex items-center gap-1 rounded-lg bg-green-500 px-3 py-1 text-xs text-white xs:gap-2 xs:text-sm"
+            >
               <p>Edit</p>
               <MdEdit className="cursor-pointer" />
             </button>
@@ -151,13 +157,11 @@ const EditMenu = () => {
             <MenuItem
               key={item.id}
               price={item.variants.length > 1 ? null : item.variants[0].price}
-              itemName={item.title}
               selectedRestaurantName={selectedRestaurantName}
-              imageUrl={item.image_dropbox_url2}
-              productId={item.id}
               fetchMenus={fetchMenus}
               setSuccess={setSuccess}
               setError={setError}
+              item={item}
             />
           ))
         ) : (

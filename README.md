@@ -71,8 +71,8 @@ restaurants taking too much time to load
 4
 # coupons
 - get coupons (done)
-- add coupons
-- edit coupon
+- add coupons (done)
+- edit coupon (done)
 - del coupons (done)
 
 5
@@ -84,3 +84,10 @@ restaurants taking too much time to load
 - ratings and comments
 
 
+git remote add origin https://github.com/BurhanUllah369/digidines.git
+
+https://github.com/Skytechccllc/landing-page-digidine.git
+
+
+price and variants
+order : 2

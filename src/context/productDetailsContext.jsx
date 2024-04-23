@@ -1,3 +1,5 @@
+// customer menu 
+
 import React, { createContext, useState, useEffect, useContext } from "react";
 
 const ProductDetailsContext = createContext();
@@ -13,6 +15,7 @@ export const ProductDetailsProvider = ({ children }) => {
 
   const setSelectedProductName = (product) => {
     setSelectedProduct(product);
+    console.log(product)
   };
 
   useEffect(() => {

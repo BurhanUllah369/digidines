@@ -13,26 +13,32 @@ import { CartProvider } from "./context/cartContext.jsx";
 import { UserProvider } from "./context/userContext.jsx";
 import { AddonIdProvider } from "./context/addonIdContext.jsx";
 import { SelectedAddonProvider } from "./context/addonData.jsx";
+import { MenuProvider } from "./context/menuContext.jsx";
+import { ProductProvider } from "./context/productContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <RestaurantsPathsProvider>
       <UserProvider>
-        <CartProvider>
-          <SelectedAddonProvider>
-            <ProductDetailsProvider>
-              <AddonIdProvider>
-                {/* <SideMenuProvider> */}
-                <SectionProvider>
-                  <RestaurantSectionProvider>
-                    <App />
-                  </RestaurantSectionProvider>
-                </SectionProvider>
-                {/* </SideMenuProvider> */}
-              </AddonIdProvider>
-            </ProductDetailsProvider>
-          </SelectedAddonProvider>
-        </CartProvider>
+        <MenuProvider>
+          <ProductProvider>
+            <CartProvider>
+              <SelectedAddonProvider>
+                <ProductDetailsProvider>
+                  <AddonIdProvider>
+                    {/* <SideMenuProvider> */}
+                    <SectionProvider>
+                      <RestaurantSectionProvider>
+                        <App />
+                      </RestaurantSectionProvider>
+                    </SectionProvider>
+                    {/* </SideMenuProvider> */}
+                  </AddonIdProvider>
+                </ProductDetailsProvider>
+              </SelectedAddonProvider>
+            </CartProvider>
+          </ProductProvider>
+        </MenuProvider>
       </UserProvider>
     </RestaurantsPathsProvider>
   </BrowserRouter>,

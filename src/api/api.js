@@ -18,12 +18,13 @@ export const API_ENDPOINTS = {
     UPDATE_MENU: `${BASE_URL}/api/update-menu/`,
     DELETE_MENU_ITEM: `${BASE_URL}/api/delete-menu-item/`,
     CREATE_MENU_ITEM: `${BASE_URL}/api/create-menu-item/`,
-    UPDATE_MENU_ITEM: `${BASE_URL}/api/update-menu-item/4/`,
+    UPDATE_MENU_ITEM: `${BASE_URL}/api/update-menu-item/`,
     GET_ADDONS: `${BASE_URL}/api/addons/`,
     DELETE_ADDON: `${BASE_URL}/api/add-ons/delete/`,
     ADD_ADDON: `${BASE_URL}/api/add-ons/create/`,
     EDIT_ADDON: `${BASE_URL}/api/add-ons/update/`,
     GET_COUPONS: `${BASE_URL}/api/coupons/?restaurant_id=`,
     DELETE_COUPON: `${BASE_URL}/api/coupons/`,
-    ADD_COUPON: `${BASE_URL}/api/restaurants/`
+    ADD_COUPON: `${BASE_URL}/api/restaurants/`,
+    UPDATE_COUPON: `${BASE_URL}/api/coupons/`
 }
