@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "routes": [
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
+=======
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+>>>>>>> 9ca4d110e749d6e97c8db52e9c69f0e752c28599
   ]
 }
