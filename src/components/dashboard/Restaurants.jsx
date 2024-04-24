@@ -18,7 +18,6 @@ const Restaurant = ({ urlName, id, name, imageUrl }) => {
   const handleRestaurantClick = () => {
     restaurantId(id);
     restaurantName(urlName);
-    // console.log(selectedRestaurantName)
   };
 
   return (

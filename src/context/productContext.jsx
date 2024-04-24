@@ -15,7 +15,7 @@ export const ProductProvider = ({ children }) => {
   const updateProduct = (product) => {
     setSelectedProduct(product);
     localStorage.setItem("selectedProduct", JSON.stringify(product));
-    console.log(product.id, product)
+    // console.log(product.id, product)
   };
 
 

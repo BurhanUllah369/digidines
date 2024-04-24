@@ -16,6 +16,7 @@ export const RestaurantsPathsProvider = ({ children }) => {
 
   const restaurantId = (id) => {
     setSelectedRestaurantId(id);
+    console.log(id)
   };
 
   const restaurantName = (name) => {

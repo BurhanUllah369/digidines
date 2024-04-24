@@ -215,9 +215,10 @@ const Menus = () => {
         })
         .then((response) => {
           setMenu(response.data);
-
-          console.log(response.data[0].menu_items);
-          updateProduct(response.data[0].menu_items);
+          // console.log(response.data[0].menu_items);
+          if (response.data[0]) {
+            updateProduct(response.data[0].menu_items);
+          }
         })
         .catch((error) => console.log(error));
     }
