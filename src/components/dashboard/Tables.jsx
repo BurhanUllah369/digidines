@@ -103,7 +103,7 @@ const Tables = () => {
   const { showRestaurantSection } = useEditRestaurantContext();
   const { selectedRestaurantId } = useRestaurantsPathsContext();
   const [editLocation, setEditLocation] = useState(false);
-  const [addLocation, setAddLocation] = useState(true);
+  const [addLocation, setAddLocation] = useState(false);
   const [addTable, setAddTable] = useState(false);
   const [addTableBulk, setAddTableBulk] = useState(false);
   const [editTable, setEditTable] = useState(false);
@@ -405,7 +405,7 @@ const Tables = () => {
       className={`${showRestaurantSection == 3 ? "block" : "hidden"} mt-12`}
     >
       {tablesData.length === 0 ? (
-        <section className={`${addLocation ? "block" : "hidden"} mb-6`}>
+        <section className={`mb-6`}>
           {/* add location  */}
           <h1 className="mb-3 text-xl font-bold">Add Tables Location</h1>
           <form onSubmit={handleAddLocation} action="">
@@ -419,7 +419,6 @@ const Tables = () => {
             <section className="mt-4 flex gap-2">
               <button
                 type="button"
-                onClick={() => setAddLocation(false)}
                 className="rounded-lg bg-red-600 px-4 py-2 text-white outline-none"
               >
                 Cancel
